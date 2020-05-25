@@ -1,0 +1,9 @@
+sMin:	1*E-6
+sMax:	1000
+dichte:	1000
+qini:	-3.5
+Mges:	1E26
+vrel:	1
+volumen:	1.497E17
+gitterMax:	100E3
+schritte:	10E3
