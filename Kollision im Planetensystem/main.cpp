@@ -15,7 +15,7 @@ double volumen;
 liest alle fuer den Start benoetigten Werte aus einer Datei filename
 
 */
-void readValuesFromFile(string filename, int &sMin, int &sMax, int &dichte, double& q, int &gesMasse, double &relGeschwindigkeit, double &volumen) {
+void readValuesFromFile(string filename, int &sMin, int &sMax, int &dichte, double& q, int &gesMasse, double &relGeschwindigkeit, double &volumen, int &gitterMax, int &schritte) {
 
 }
 
@@ -31,7 +31,9 @@ Erzeugt ein logarithmisches Gitter im Bereich min bis max mit schritte als diskr
  INITALIESIERUNG von variablen, einlesen der Daten
  */
  void INIT() {
-	 readValuesFromFile("anfangswerte.txt", sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen);
+	 int gitterMax;
+	 int schritte;
+	 readValuesFromFile("anfangswerte.txt", sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
 
  }
 
