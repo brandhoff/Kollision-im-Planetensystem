@@ -16,7 +16,7 @@ liest alle fuer den Start benoetigten Werte aus einer Datei filename
 
 */
 void readValuesFromFile(string filename, int &sMin, int &sMax, int &dichte, double& q, int &gesMasse, double &relGeschwindigkeit, double &volumen, int &gitterMax, int &schritte) {
-
+//hsllo
 }
 
 /**
