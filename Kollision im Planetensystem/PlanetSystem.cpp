@@ -38,6 +38,7 @@ Berechnet die Kollisionsrate fuer die momentane konfiguration an Teilchen und de
 */
 double PlanetSystem::calcKollisionsrate() {
 
+	return 0.0;
 }
 
 /*
@@ -46,4 +47,5 @@ Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Te
 
 double PlanetSystem::calcKollisionsLebensdauer() {
 
+	return 0.0;
 }

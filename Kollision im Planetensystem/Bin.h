@@ -4,8 +4,14 @@
 class Bin
 {
 public:
+	Bin(double bereich);
+	Bin(double bereich, std::vector<Teilchen> teilchen);
+
 	std::vector<Teilchen> teilchen;
-	double address;
+	/*
+	Is used to determin the specific interval used by this bin
+	*/
+	double bereich;
 	void addTeilchen(Teilchen teilchen);
 	void removeTeilchen(Teilchen teilchen);
 	double getGesMasse();

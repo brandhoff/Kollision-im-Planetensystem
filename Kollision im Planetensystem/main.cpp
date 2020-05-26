@@ -7,6 +7,9 @@
 #include <string>
 #include <cmath>
 
+#include "Bin.h"
+#include "PlanetSystem.h"
+#include "Teilchen.h"
 using namespace std;
 
 double gesMasse;
@@ -120,7 +123,11 @@ template<typename function_type>
 	 readValuesFromFile(config_filename, sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
 	
 	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte);
-
+	 vector<Bin> bins;
+	 for (auto &x : gitter) {
+		 Bin bin =  Bin::Bin(x);
+		 bins.push_back(bin);
+	 }
  }
 
 /*

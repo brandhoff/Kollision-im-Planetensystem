@@ -11,10 +11,15 @@ Teilchen::Teilchen(double radius, double dichte) {
 
 }
 
+/*
+calculates the mass of the teilchen using its radius and density
+*/
 double Teilchen::calcMass(double dichte, double radius) {
 	return 4 / 3 * M_PI * pow(radius, 3);
 }
-
+/*
+Checks weather teilchen are equal TODO implement logic
+*/
 bool Teilchen::equals(Teilchen teilchen) {
-
+	return true;
 }
