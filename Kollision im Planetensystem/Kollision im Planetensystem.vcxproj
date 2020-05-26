@@ -139,10 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bin.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlanetSystem.cpp" />
     <ClCompile Include="Teilchen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bin.h" />
+    <ClInclude Include="PlanetSystem.h" />
     <ClInclude Include="Teilchen.h" />
   </ItemGroup>
   <ItemGroup>

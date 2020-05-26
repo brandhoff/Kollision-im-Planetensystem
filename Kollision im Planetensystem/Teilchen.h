@@ -10,6 +10,6 @@ public:
 	double radius;
 	Teilchen(double radius, double dichte);
 	double calcMass(double dichte, double radius);
-
+	bool equals(Teilchen teilchen);
 };
 

@@ -21,9 +21,21 @@
     <ClCompile Include="Teilchen.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="PlanetSystem.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Bin.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Teilchen.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanetSystem.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Bin.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

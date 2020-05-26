@@ -106,8 +106,42 @@ template<typename function_type>
  }
 
 
+
+ 
+ /*
+ verteilt die teilchen gemaess des potenzgesetzes 
+ TODO: implimentieren der teilchenanzahl und deren verteilung
+ */
+ void potenzGesetztVerteilung() {
+
+ }
+ /*
+ Verteilt die Teilchen singulaer
+  TODO: implimentieren der teilchenanzahl und deren verteilung
+
+ */
+ void singularVerteilung() {
+
+ }
+
+ /*
+ Berechnet die Kollisionsrate fuer die momentane konfiguration an Teilchen und derer Verteilung
+ */
+ double calcKollisionsrate() {
+
+ }
+
+ /*
+ Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Teilchen und derer Verteilung
+ */
+
+ double calcKollisionsLebensdauer() {
+
+ }
+
  /*
  INITALIESIERUNG von variablen, einlesen der Daten
+
  */
  void INIT() {
 	 double gitterMax = 0;
