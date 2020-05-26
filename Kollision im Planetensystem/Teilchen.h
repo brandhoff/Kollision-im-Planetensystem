@@ -5,14 +5,11 @@ class Teilchen
 {
 
 public:
-	double radius, mass, dichte;
-
-	Teilchen(double radius, double dichte) {
-		this->radius = radius;
-		this->dichte = dichte;
-		this->mass = 0;
-		//this->mass = calcMass(dichte, radius);
-	}
+	double mass;
+	double dichte;
+	double radius;
+	Teilchen(double radius, double dichte);
+	double calcMass(double dichte, double radius);
 
 };
 

@@ -78,7 +78,7 @@ vector<double> createLogSpace(double min, double max, int schritte, double basis
 	logspace.reserve(schritte);
 	const auto exponent = (max - min) / (schritte - 1); // bastand zwischen zwei Punkten
 	for (int i = 0; i < schritte; i++) {
-		logspace.push_back(pow(basis, i * exponent));
+		logspace.push_back(pow(basis, i * exponent + min));
 	}
 	return logspace;
 }
@@ -110,11 +110,12 @@ template<typename function_type>
  INITALIESIERUNG von variablen, einlesen der Daten
  */
  void INIT() {
-	 double gitterMax;
-	 double schritte;
+	 double gitterMax = 0;
+	 double schritte = 0;
+	 sMin = 0;
 	 readValuesFromFile(config_filename, sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
 	
-
+	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte);
 
  }
 
@@ -126,7 +127,9 @@ int main(int argc, char* argv[])
 	//initialisieren
 	INIT();
 
-
+	for (auto& x : createLogSpace(0, 10, 100)) {
+		cout << x << " ";
+	}
 
 	return 0;
 }
