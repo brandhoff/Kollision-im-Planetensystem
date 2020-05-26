@@ -15,3 +15,35 @@ std::vector<Teilchen> PlanetSystem::getAllTeilchenWithin(double min, double max)
 
 void PlanetSystem::collide(Teilchen partner1, Teilchen partner2){
 }
+
+
+/*
+verteilt die teilchen gemaess des potenzgesetzes
+TODO: implimentieren der teilchenanzahl und deren verteilung
+*/
+void PlanetSystem::potenzGesetztVerteilung() {
+
+}
+/*
+Verteilt die Teilchen singulaer
+TODO: implimentieren der teilchenanzahl und deren verteilung
+
+*/
+void PlanetSystem::singularVerteilung() {
+
+}
+
+/*
+Berechnet die Kollisionsrate fuer die momentane konfiguration an Teilchen und derer Verteilung
+*/
+double PlanetSystem::calcKollisionsrate() {
+
+}
+
+/*
+Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Teilchen und derer Verteilung
+*/
+
+double PlanetSystem::calcKollisionsLebensdauer() {
+
+}
