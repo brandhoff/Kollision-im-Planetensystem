@@ -8,5 +8,6 @@ public:
 	double address;
 	void addTeilchen(Teilchen teilchen);
 	void removeTeilchen(Teilchen teilchen);
+	double getGesMasse();
 };
 
