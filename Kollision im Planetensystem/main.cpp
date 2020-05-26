@@ -7,10 +7,6 @@
 #include <string>
 #include <cmath>
 
-//Boost abhaegigkeiten
-#include <boost/multiprecision/cpp_dec_float.hpp>
-#include <boost/math/constants/constants.hpp>
-
 using namespace std;
 
 double gesMasse;
