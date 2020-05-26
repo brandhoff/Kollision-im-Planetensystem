@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <cmath>
 using namespace std;
 
 int gesMasse;
@@ -23,10 +24,10 @@ void readValuesFromFile(string filename, int &sMin, int &sMax, int &dichte, doub
 Erzeugt ein logarithmisches Gitter im Bereich min bis basis^max mit anzahl schritten. Basis gibt dabei die log scala an mit default=10
 TODO: macht noch nicht ganz was wir wollen: in der main wird ein beispiel geprintet zu viele gleiche punkte was sinnlos ist.
 */
- vector<double> createLogSpace(int min, int max, int schritte, int basis=10) {
+ vector<double> createLogSpace(int min, int max, int schritte, double basis=10) {
 	 vector<double> logspace;
 	 for (int i = 0; i < schritte; i++) {
-		 logspace.push_back(pow(basis, i * (max - min) / (schritte - 1)));
+		 logspace.push_back(pow(basis,(double) i * (max - min) / (schritte-1)));
 	 }
 	 return logspace;
 }
@@ -50,7 +51,7 @@ int main(int argc, char* argv[])
 	//initialisieren
 	INIT();
 
-	for (auto& x : createLogSpace(1, 10, 100)) {
+	for (auto& x : createLogSpace(1, 3, 100)) {
 		cout << x << " ";
 	};
 
