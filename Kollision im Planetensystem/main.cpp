@@ -8,12 +8,21 @@
 #include <cmath>
 using namespace std;
 
-int gesMasse;
+double gesMasse;
 double relGeschwindigkeit;
 double q;
-int sMin, sMax;
-int dichte;
+double sMin, sMax;
+double dichte;
 double volumen;
+/*
+gibt den absolut pfad zur config datei, in der die strat werte gespeichert sind an.
+*/
+const string config_filename = "C:\\Users\\hi84qur\\source\\repos\\Kollision im Planetensystem\\Kollision im Planetensystem\\anfagswerte.txt";
+
+
+
+
+
 
 /*
 	sucht in der gegebenen Datei nach einem keyWort und liest den dazugehoerigen Wert aus. Der Wert wird als string returnt
@@ -25,9 +34,9 @@ string readValueFromKey(string filename, string key) {
 	string output;
 	while (getline(inputFile, line)) {
 		auto pos = line.find(key);
-		if (pos != std::string::npos) {
+		if (pos != std::string::npos) { //linie gefunden und ist nicht leer position
 			stringstream iss;
-			output = (line.substr(pos + key.size()));
+			output = (line.substr(pos + key.size())); //substring zwischen key und value bilden und als output nehmen
 			break;
 		}
 	}
@@ -35,13 +44,20 @@ string readValueFromKey(string filename, string key) {
 }
 
 /*
-liest alle fuer den Start benoetigten Werte aus einer Datei filename
+liest alle fuer den Start benoetigten Werte aus einer Datei, wobei die keys fuer die values festgelegt sind
 
 */
-void readValuesFromFile(string filename, int &sMin, int &sMax, int &dichte, double& q, int &gesMasse, double &relGeschwindigkeit, double &volumen, int &gitterMax, int &schritte) {
+void readValuesFromFile(string filename, double &sMin, double&sMax, double&dichte, double& q, double&gesMasse, double &relGeschwindigkeit, double &volumen, double&gitterMax, double&schritte) {
 
-
-
+	sMin = stod(readValueFromKey(filename, "sMin:"));
+	sMax = stod(readValueFromKey(filename, "sMax:"));
+	dichte = stod(readValueFromKey(filename, "dichte:"));
+	q = stod(readValueFromKey(filename, "qini:"));
+	gesMasse = stod(readValueFromKey(filename, "Mges:"));
+	relGeschwindigkeit = stod(readValueFromKey(filename, "vrel:"));
+	volumen = stod(readValueFromKey(filename, "volumen:"));
+	gitterMax = stod(readValueFromKey(filename, "gitterMax:"));
+	schritte = stod(readValueFromKey(filename, "schritte:"));
 }
 
 
@@ -64,12 +80,10 @@ Erzeugt ein logarithmisches Gitter im Bereich min bis basis^max mit anzahl schri
  INITALIESIERUNG von variablen, einlesen der Daten
  */
  void INIT() {
-	 int gitterMax;
-	 int schritte;
-	 readValuesFromFile("anfangswerte.txt", sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
-	 //vector<double> logspace = createLogSpace(0, gitterMax, schritte);
-
-	 cout << readValueFromKey("C:\\Users\\hi84qur\\source\\repos\\Kollision im Planetensystem\\Kollision im Planetensystem\\anfagswerte.txt","gitterMax:") << " ";
+	 double gitterMax;
+	 double schritte;
+	 readValuesFromFile(config_filename, sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
+	
  }
 
 /*
