@@ -18,7 +18,7 @@ double volumen;
 /*
 gibt den absolut pfad zur config datei, in der die strat werte gespeichert sind an.
 */
-const string config_filename = "C:\\Users\\hi84qur\\source\\repos\\Kollision im Planetensystem\\Kollision im Planetensystem\\anfagswerte.txt";
+const string config_filename = "anfagswerte.txt";
 
 
 
