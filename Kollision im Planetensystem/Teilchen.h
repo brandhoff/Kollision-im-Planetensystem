@@ -8,8 +8,8 @@ public:
 	double mass;
 	double dichte;
 	double radius;
-	Teilchen(double mass, double dichte);
-	Teilchen(double mass, double dichte, bool withMass);
+	Teilchen(double radius, double dichte);
+	Teilchen(double mass, double dichte, bool withMass); // bool withMass zur Unterscheidung der Signatur der Konstruktoren
 	double calcMass(double dichte, double radius);
 	double calcRadius(double dichte, double mass);
 	bool equals(Teilchen teilchen);
