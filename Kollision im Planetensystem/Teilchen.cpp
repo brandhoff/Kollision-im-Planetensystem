@@ -1,5 +1,5 @@
 #include "Teilchen.h"
-#include <math.h>
+#include <cmath>
 
 
 Teilchen::Teilchen(double radius, double dichte) {
@@ -15,10 +15,10 @@ Teilchen::Teilchen(double radius, double dichte) {
 calculates the mass of the teilchen using its radius and density
 */
 double Teilchen::calcMass(double dichte, double radius) {
-	return 4 / 3 * M_PI * pow(radius, 3);
+	return 4.0 / 3.0 * M_PI * pow(radius, 3);
 }
 /*
-Checks weather teilchen are equal TODO implement logic
+Checks whether teilchen are equal TODO implement logic
 */
 bool Teilchen::equals(Teilchen teilchen) {
 	return true;

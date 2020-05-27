@@ -1,12 +1,12 @@
 #include "Bin.h"
 
 
-Bin::Bin(double bereich) {
-	this->bereich = bereich;
+Bin::Bin(double massenWert) {
+	this->massenWert = massenWert;
 }
 
-Bin::Bin(double bereich, std::vector<Teilchen> teilchen) {
-	this->bereich = bereich;
+Bin::Bin(double massenWert, std::vector<Teilchen> teilchen) {
+	this->massenWert = massenWert;
 	this->teilchen = teilchen;
 }
 

@@ -19,7 +19,7 @@ double sMin, sMax;
 double dichte;
 double volumen;
 /*
-gibt den absolut pfad zur config datei, in der die strat werte gespeichert sind an.
+gibt den absolut pfad zur config datei, in der die startwerte gespeichert sind an.
 */
 const string config_filename = "anfagswerte.txt";
 
@@ -29,7 +29,7 @@ const string config_filename = "anfagswerte.txt";
 
 
 /*
-	sucht in der gegebenen Datei nach einem keyWort und liest den dazugehoerigen Wert aus. Der Wert wird als string returnt
+sucht in der gegebenen Datei nach einem keyWort und liest den dazugehoerigen Wert aus. Der Wert wird als string returnt
 */
 string readValueFromKey(string filename, string key) {
 	ifstream inputFile;
@@ -79,7 +79,7 @@ Erzeugt ein logarithmisches Gitter im Bereich min bis basis^max mit anzahl schri
 vector<double> createLogSpace(double min, double max, int schritte, double basis = 10) {
 	vector<double> logspace;
 	logspace.reserve(schritte);
-	const auto exponent = (max - min) / (schritte - 1); // bastand zwischen zwei Punkten
+	const auto exponent = (max - min) / (schritte - 1); // Abastand zwischen zwei Punkten
 	for (int i = 0; i < schritte; i++) {
 		logspace.push_back(pow(basis, i * exponent + min));
 	}
@@ -124,6 +124,7 @@ template<typename function_type>
 	
 	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte);
 	 vector<Bin> bins;
+	 int counter = 0;
 	 for (auto &x : gitter) {
 		 Bin bin =  Bin::Bin(x);
 		 bins.push_back(bin);
