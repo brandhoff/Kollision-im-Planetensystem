@@ -9,8 +9,6 @@ Teilchen::Teilchen(double radius, double dichte) {
 	this->dichte = dichte;
 	this->radius = radius;
 	this->mass = calcMass(dichte, radius);
-
-
 }
 
 Teilchen::Teilchen(double mass, double dichte, bool withMass) {

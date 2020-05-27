@@ -8,6 +8,7 @@ public:
 	double mass;
 	double dichte;
 	double radius;
+
 	Teilchen();
 	Teilchen(double mass, double dichte);
 	Teilchen(double mass, double dichte, bool withMass);

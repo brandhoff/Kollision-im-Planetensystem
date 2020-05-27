@@ -130,7 +130,7 @@ template<typename function_type>
 	 }
 
 	 //create the main PlanetSystem
-	 main_system = PlanetSystem::PlanetSystem(relGeschwindigkeit, volumen, q, bins);
+	 main_system = PlanetSystem::PlanetSystem(relGeschwindigkeit, volumen, q, dichte, bins);
  }
 
 /*

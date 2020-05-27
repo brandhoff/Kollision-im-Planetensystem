@@ -16,7 +16,7 @@ class PlanetSystem
 		std::vector<Teilchen> getAllTeilchenWithin(double min, double max);
 		void collide(Teilchen partner1, Teilchen partner2);
 		void potenzGesetztVerteilung();
-		void singularVerteilung();
+		void singularVerteilung(int binNumber);
 		double calcKollisionsrate();
 		double calcKollisionsLebensdauer();
 		double getTotalMass();
