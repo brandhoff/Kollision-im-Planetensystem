@@ -9,6 +9,16 @@ PlanetSystem::PlanetSystem(){
 PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, std::vector<Bin> bin_list){
 }
 
+/*
+gets the total mass of the system. 
+*/
+double PlanetSystem::getTotalMass() {
+	for (auto& x : this->bin_list) {
+
+	}
+	return 0.0;
+}
+
 std::vector<Teilchen> PlanetSystem::getAllTeilchenWithin(double min, double max){
 	return std::vector<Teilchen>();
 }
