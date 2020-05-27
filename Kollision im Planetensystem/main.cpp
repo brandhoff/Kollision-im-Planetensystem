@@ -22,7 +22,7 @@ double volumen;
 gibt den absolut pfad zur config datei, in der die startwerte gespeichert sind an.
 */
 const string config_filename = "anfagswerte.txt";
-
+PlanetSystem main_system;
 
 
 
@@ -128,6 +128,9 @@ template<typename function_type>
 		 Bin bin =  Bin::Bin(x); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden
 		 bins.push_back(bin);
 	 }
+	 //create the main PlanetSystem
+
+	 main_system = PlanetSystem::PlanetSystem(relGeschwindigkeit, volumen, q, bins);
  }
 
 /*
@@ -138,9 +141,9 @@ int main(int argc, char* argv[])
 	//initialisieren
 	INIT();
 
-	for (auto& x : createLogSpace(0, 10, 100)) {
-		cout << x << " ";
-	}
+	//ruft die gewuenschte verteilung im system auf
+	main_system.potenzGesetztVerteilung();
+
 
 	return 0;
 }
