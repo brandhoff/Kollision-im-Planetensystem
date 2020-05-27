@@ -22,7 +22,7 @@ verteilt die teilchen gemaess des potenzgesetzes
 TODO: implimentieren der teilchenanzahl und deren verteilung
 */
 void PlanetSystem::potenzGesetztVerteilung() {
-
+	for(auto &x : this->bin_list)
 }
 /*
 Verteilt die Teilchen singulaer

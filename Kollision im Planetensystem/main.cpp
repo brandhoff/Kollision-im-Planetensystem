@@ -124,9 +124,8 @@ template<typename function_type>
 	
 	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte);
 	 vector<Bin> bins;
-	 int counter = 0;
 	 for (auto &x : gitter) {
-		 Bin bin =  Bin::Bin(x);
+		 Bin bin =  Bin::Bin(x); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden
 		 bins.push_back(bin);
 	 }
  }
