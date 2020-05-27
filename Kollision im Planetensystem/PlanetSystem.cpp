@@ -54,8 +54,17 @@ double PlanetSystem::calcKollisionsrate() {
 /*
 Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Teilchen und derer Verteilung
 */
-
 double PlanetSystem::calcKollisionsLebensdauer() {
 
 	return 0.0;
+}
+
+
+/*
+leert alle Bins im System
+*/
+void emptyAllBins() {
+	for (auto& x : this->bin_list) {
+
+	}
 }

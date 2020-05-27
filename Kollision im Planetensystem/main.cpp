@@ -128,8 +128,8 @@ template<typename function_type>
 		 Bin bin =  Bin::Bin(x); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden
 		 bins.push_back(bin);
 	 }
-	 //create the main PlanetSystem
 
+	 //create the main PlanetSystem
 	 main_system = PlanetSystem::PlanetSystem(relGeschwindigkeit, volumen, q, bins);
  }
 
