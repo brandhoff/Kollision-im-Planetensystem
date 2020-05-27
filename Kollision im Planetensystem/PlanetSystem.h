@@ -5,7 +5,7 @@
 class PlanetSystem
 {
 	public:
-		std::vector<Teilchen> AlleTeilchen;
+		std::vector<Bin> bin_list;
 		PlanetSystem();
 		PlanetSystem(double relGeschwindigkeit, double volumen, double q, std::vector<Bin> bin_list);
 		std::vector<Teilchen> getAllTeilchenWithin(double min, double max);
@@ -14,5 +14,6 @@ class PlanetSystem
 		void singularVerteilung();
 		double calcKollisionsrate();
 		double calcKollisionsLebensdauer();
+		double getTotalMass();
 };
 

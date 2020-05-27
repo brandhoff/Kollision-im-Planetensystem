@@ -21,5 +21,6 @@ double Teilchen::calcMass(double dichte, double radius) {
 Checks whether teilchen are equal TODO implement logic
 */
 bool Teilchen::equals(Teilchen teilchen) {
+
 	return true;
 }
