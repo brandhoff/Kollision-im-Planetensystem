@@ -20,5 +20,7 @@ class PlanetSystem
 		double calcKollisionsrate();
 		double calcKollisionsLebensdauer();
 		double getTotalMass();
+	private:
+		void emptyAllBins();
 };
 

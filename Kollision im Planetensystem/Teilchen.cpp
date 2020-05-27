@@ -2,6 +2,8 @@
 #include <cmath>
 
 
+Teilchen::Teilchen(){}
+
 Teilchen::Teilchen(double radius, double dichte) {
 
 	this->dichte = dichte;
