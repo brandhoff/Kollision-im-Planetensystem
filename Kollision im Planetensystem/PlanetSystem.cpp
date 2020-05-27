@@ -1,6 +1,7 @@
 #include "PlanetSystem.h"
 #include <vector>
 #include "Bin.h"
+#include "Teilchen.h"
 //DIESE KLASSE WIRD GENUTZT UM MEHRERE SYSTEM GLEICHZEITIG ZU MODDELIEREN UND ZU CONFIGURIEREN
 
 PlanetSystem::PlanetSystem(){
@@ -34,7 +35,7 @@ TODO: implimentieren der teilchenanzahl und deren verteilung
 void PlanetSystem::potenzGesetztVerteilung() {
 	Teilchen teilchen;
 	for (auto &x : this->bin_list) {
-		teilchen(radius, x.massenWert);
+		teilchen = Teilchen::Teilchen(radius, x.massenWert);
 		x.addTeilchen(teilchen);
 	}
 }
@@ -67,7 +68,7 @@ double PlanetSystem::calcKollisionsLebensdauer() {
 /*
 leert alle Bins im System
 */
-void emptyAllBins() {
+void PlanetSystem::emptyAllBins() {
 	for (auto& x : this->bin_list) {
 
 	}
