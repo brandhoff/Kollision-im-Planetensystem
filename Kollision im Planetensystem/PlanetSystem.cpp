@@ -13,7 +13,7 @@ PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, 
 gets the total mass of the system. 
 */
 double PlanetSystem::getTotalMass() {
-	for (auto& x : this->bin_list) {
+	for (auto &x : this->bin_list) {
 
 	}
 	return 0.0;
@@ -32,7 +32,11 @@ verteilt die teilchen gemaess des potenzgesetzes
 TODO: implimentieren der teilchenanzahl und deren verteilung
 */
 void PlanetSystem::potenzGesetztVerteilung() {
-	for(auto &x : this->bin_list)
+	Teilchen teilchen;
+	for (auto &x : this->bin_list) {
+		teilchen(radius, x.massenWert);
+		x.addTeilchen(teilchen);
+	}
 }
 /*
 Verteilt die Teilchen singulaer
