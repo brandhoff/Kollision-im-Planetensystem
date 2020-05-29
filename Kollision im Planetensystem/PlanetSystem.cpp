@@ -2,12 +2,23 @@
 #include <vector>
 #include "Bin.h"
 #include "Teilchen.h"
+#include <iostream>
 //DIESE KLASSE WIRD GENUTZT UM MEHRERE SYSTEM GLEICHZEITIG ZU MODDELIEREN UND ZU KoNFIGURIEREN
 
 PlanetSystem::PlanetSystem(){
+	this->relGeschwindigkeit = 0;
+	this->volumen = 0;
+	this->q = 0;
+	this->dichte = 0;
+	//this->bin_list = new std::vector<Bin>();
 }
 
 PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, double dichte, std::vector<Bin> bin_list){
+	this->relGeschwindigkeit = relGeschwindigkeit;
+	this->volumen = volumen;
+	this->q = q;
+	this->dichte = dichte;
+	this->bin_list = bin_list;
 }
 
 /*
@@ -30,14 +41,24 @@ void PlanetSystem::collide(Teilchen partner1, Teilchen partner2){
 
 
 /*
-verteilt die teilchen gemaess des potenzgesetzes
-TODO: implimentieren der teilchenanzahl und deren verteilung
+verteilt die teilchen gemaess des potenzgesetzes fuer massen
+im bereich start und end
 */
-void PlanetSystem::potenzGesetztVerteilung() {
-	Teilchen teilchen;
+
+//TODO DER MUSS NEU GESCHRIEBEN WERDEN DAS IST NONSENS WAS PASSIERT --> zu wenig bins im bereich fuehrt dazu dass zu wenig teilchen gefuellt 
+//werden und so nur ein oder zwei teilchen mit masse 1 oder weniger in dem Bereich landen. moeglicher fix: mehr bins-> mehr rechnung mehr gitter doof; 
+//anderer fix teilchen in intervallen zu bins zuordnen, dafuer 1D abstaende zsischen benachbarten bins anschauen
+void PlanetSystem::potenzGesetztVerteilung(double start, double end) {
 	for (auto &x : this->bin_list) {
-		teilchen = Teilchen::Teilchen(x.massenWert, dichte, true);
-		for (int i=0; i < pow(x.massenWert, - 11.0 / 6.0); i++) x.addTeilchen(teilchen); // befülle Bin mit n(m)^(-11/6) Teilchen
+		if (end < x.massenWert) continue;
+		if (start < x.massenWert) {
+			for (double i = 0; i < pow(x.massenWert, -11.0 / 6.0); i++) {
+				x.addTeilchen(Teilchen::Teilchen(x.massenWert, dichte, true));
+				std::cout << "added teilchen mass: " << x.massenWert;
+
+			} // befülle Bin mit n(m)^(-11/6) Teilchen}
+
+		}
 	}
 }
 /*

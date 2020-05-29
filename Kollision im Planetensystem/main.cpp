@@ -142,7 +142,7 @@ int main(int argc, char* argv[])
 	INIT();
 
 	//ruft die gewuenschte verteilung im system auf
-	main_system.potenzGesetztVerteilung();
+	main_system.potenzGesetztVerteilung(sMin, sMax);
 
 
 	return 0;
