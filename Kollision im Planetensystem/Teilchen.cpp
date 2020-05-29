@@ -2,7 +2,11 @@
 #include <cmath>
 
 
-Teilchen::Teilchen(){}
+Teilchen::Teilchen(){
+	this->dichte = 0;
+	this->mass = 10;
+	this->radius = 0;
+}
 
 Teilchen::Teilchen(double radius, double dichte) {
 

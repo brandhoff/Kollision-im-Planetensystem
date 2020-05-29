@@ -13,7 +13,7 @@ PlanetSystem::PlanetSystem(){
 	//this->bin_list = new std::vector<Bin>();
 }
 
-PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, double dichte, std::vector<Bin> bin_list){
+PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, double dichte, std::vector<Bin*> bin_list){
 	this->relGeschwindigkeit = relGeschwindigkeit;
 	this->volumen = volumen;
 	this->q = q;
@@ -27,7 +27,9 @@ gets the total mass of the system.
 double PlanetSystem::getTotalMass() {
 	double totalMass = 0.0;
 	for (auto &x : this->bin_list) {
-		totalMass += x.getGesMasse();	// Aufsummierung der Gesamtmassen der einzelnen Bins
+		totalMass = totalMass + x->getGesMasse();	// Aufsummierung der Gesamtmassen der einzelnen Bins
+		if(x->getGesMasse() >0)
+		std::cout << "total mass jetzt: " << totalMass << std::endl;
 	}
 	return totalMass;
 }
@@ -48,27 +50,52 @@ im bereich start und end
 //TODO DER MUSS NEU GESCHRIEBEN WERDEN DAS IST NONSENS WAS PASSIERT --> zu wenig bins im bereich fuehrt dazu dass zu wenig teilchen gefuellt 
 //werden und so nur ein oder zwei teilchen mit masse 1 oder weniger in dem Bereich landen. moeglicher fix: mehr bins-> mehr rechnung mehr gitter doof; 
 //anderer fix teilchen in intervallen zu bins zuordnen, dafuer 1D abstaende zsischen benachbarten bins anschauen
+
+//WEITERER LOGIK FEHLER: problem teilchen anzahl wird nicht erhoeht wenn dann wird immer nur ein teilchen mit anderer masse hinzugefuegt was bedeutetnd anders ist als teilchenanzahl
 void PlanetSystem::potenzGesetztVerteilung(double start, double end) {
 	for (auto &x : this->bin_list) {
-		if (end < x.massenWert) continue;
-		if (start < x.massenWert) {
-			for (double i = 0; i < pow(x.massenWert, -11.0 / 6.0); i++) {
-				x.addTeilchen(Teilchen::Teilchen(x.massenWert, dichte, true));
-				std::cout << "added teilchen mass: " << x.massenWert;
+		if (end < x->massenWert) continue;
+		if (start < x->massenWert) {
+			for (double i = 0; i < pow(x->massenWert, -11.0 / 6.0); i++) {
+				//x.addTeilchen(Teilchen::Teilchen(x.massenWert, dichte, true));
+				//std::cout << "added teilchen mass: " << x.massenWert;
 
 			} // befülle Bin mit n(m)^(-11/6) Teilchen}
 
 		}
 	}
 }
+//PROBLEM ZU GROSSE MENGEN -> WEIL SCHIRTTE NICHT GUT UND MUSS NEXT BIN NEHMEN
+void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
+	double vergebene_Masse = 0;
+	int i = 0;
+	while (vergebene_Masse < gesMass) {
+		Bin* x = bin_list[i];
+		double anzahl = 0;
+		while (anzahl < pow(x->massenWert, -11.0 / 6.0)) {
+
+			x->addTeilchen(new Teilchen(x->massenWert, dichte, true));
+			vergebene_Masse += x->massenWert;
+			std::cout << " added a teilchen with mass: " << x->massenWert << std::endl;
+
+			anzahl++;
+		}
+		i++;
+	}
+	std::cout << this->bin_list.size();
+	
+
+
+
+}
+
 /*
 Verteilt die Teilchen singulaer
 binNumber gibt das Bin an, welches mit Teilchen gefüllt werden soll
 
 */
 void PlanetSystem::singularVerteilung(int binNumber) {
-	Teilchen teilchen(bin_list[binNumber].massenWert, dichte, true);
-	for (int i = 0; i < pow(bin_list[binNumber].massenWert, -11.0 / 6.0); i++) bin_list[binNumber].addTeilchen(teilchen);
+	
 }
 
 /*

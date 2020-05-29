@@ -5,14 +5,14 @@ class Bin
 {
 public:
 	Bin(double massenWert);	// Teilchen werden entsprechend ihrer Masse den Bins zugeordnet
-	Bin(double massenWert, std::vector<Teilchen> teilchen);
+	Bin(double massenWert, std::vector<Teilchen*> teilchen);
 
-	std::vector<Teilchen> teilchen;
+	std::vector<Teilchen*> teilchenList;
 	/*
 	Is used to determin the specific interval used by this bin
 	*/
 	double massenWert;
-	void addTeilchen(Teilchen teilchen);
+	void addTeilchen(Teilchen* teilchen);
 	void removeTeilchen(Teilchen teilchen);
 	double getGesMasse();
 };

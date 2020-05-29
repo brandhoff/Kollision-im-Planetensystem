@@ -123,9 +123,9 @@ template<typename function_type>
 	 readValuesFromFile(config_filename, sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
 	
 	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte);
-	 vector<Bin> bins;
+	 vector<Bin*> bins;
 	 for (auto &x : gitter) {
-		 Bin bin =  Bin::Bin(x); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden
+		 Bin* bin =  new Bin(x); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden
 		 bins.push_back(bin);
 	 }
 
@@ -142,8 +142,8 @@ int main(int argc, char* argv[])
 	INIT();
 
 	//ruft die gewuenschte verteilung im system auf
-	main_system.potenzGesetztVerteilung(sMin, sMax);
-
+	main_system.potenzGesetztVerteilung(sMin, sMax, gesMasse, dichte);
+	cout << " Gesamte masse des Systems: " << main_system.getTotalMass() << endl;
 
 	return 0;
 }
