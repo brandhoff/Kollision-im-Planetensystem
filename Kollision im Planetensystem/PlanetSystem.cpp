@@ -10,7 +10,6 @@ PlanetSystem::PlanetSystem(){
 	this->volumen = 0;
 	this->q = 0;
 	this->dichte = 0;
-	//this->bin_list = new std::vector<Bin>();
 }
 
 PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, double dichte, std::vector<Bin*> bin_list){
@@ -25,10 +24,11 @@ PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, 
 gets the total mass of the system. 
 */
 double PlanetSystem::getTotalMass() {
-	double totalMass = 0.0;
+	double totalMass = 1.0;
 	for (auto &x : this->bin_list) {
-		totalMass = totalMass + x->getGesMasse();	// Aufsummierung der Gesamtmassen der einzelnen Bins
-		if(x->getGesMasse() >0)
+		totalMass += x->getGesMasse();	// Aufsummierung der Gesamtmassen der einzelnen Bins
+
+		if(x->getGesMasse() > 0)
 		std::cout << "total mass jetzt: " << totalMass << std::endl;
 	}
 	return totalMass;
@@ -65,29 +65,58 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end) {
 		}
 	}
 }
-//PROBLEM ZU GROSSE MENGEN -> WEIL SCHIRTTE NICHT GUT UND MUSS NEXT BIN NEHMEN
+//Implementiert idee von gross zu kleinen massen
+//TODO end stimmt nicht ganz wes werden alle 
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
-	double vergebene_Masse = 0;
-	int i = 0;
-	while (vergebene_Masse < gesMass) {
-		Bin* x = bin_list[i];
+	double restMasse = gesMass;
+	int index = findNextBinIndexUnderMass(restMasse);
+	while (restMasse > 0.001) {
+		Bin* x = bin_list[index];
 		double anzahl = 0;
-		while (anzahl < pow(x->massenWert, -11.0 / 6.0)) {
+		while (anzahl < 20*pow(x->massenWert, -11.0 / 6.0)) {
 
 			x->addTeilchen(new Teilchen(x->massenWert, dichte, true));
-			vergebene_Masse += x->massenWert;
+			restMasse -= x->massenWert;
 			std::cout << " added a teilchen with mass: " << x->massenWert << std::endl;
-
 			anzahl++;
 		}
-		i++;
+		if (index > 0) {
+			index--;
+		}
+		else break;
 	}
-	std::cout << this->bin_list.size();
-	
-
-
 
 }
+
+/*
+	findet das nachste Bin unterhalb (<=) der gegebenen masse
+	might return a NullPointer  nullCheck first
+*/
+Bin* PlanetSystem::findNextBinUnderMass(double mass) {
+	Bin* aktuell = new Bin(mass);
+	for (auto& x : bin_list) {
+		if (x->massenWert <= mass) {
+			aktuell = x;
+		}
+	}
+	return aktuell; // Might return a nullPointer. 
+}
+/*
+Findet den naechsten bin list index unterhalb (<=) der gegebenen masse
+*/
+int PlanetSystem::findNextBinIndexUnderMass(double mass) {
+	int aktuell;
+	for (int i = 0; i <= bin_list.size(); i++) {
+		if (bin_list[i]->massenWert <= mass) {
+			aktuell = i;
+		}
+		else {
+			break;
+		}
+	}
+	return aktuell; 
+}
+
 
 /*
 Verteilt die Teilchen singulaer

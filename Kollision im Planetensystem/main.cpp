@@ -122,7 +122,7 @@ template<typename function_type>
 	 sMin = 0;
 	 readValuesFromFile(config_filename, sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
 	
-	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte);
+	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte*20);
 	 vector<Bin*> bins;
 	 for (auto &x : gitter) {
 		 Bin* bin =  new Bin(x); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden

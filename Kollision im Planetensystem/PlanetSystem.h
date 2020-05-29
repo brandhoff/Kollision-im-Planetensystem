@@ -19,6 +19,8 @@ class PlanetSystem
 		void collide(Teilchen partner1, Teilchen partner2);
 		void potenzGesetztVerteilung(double start, double end);
 		void potenzGesetztVerteilung(double start, double end, double gesMass, double dichte);
+		Bin* findNextBinUnderMass(double mass);
+		int findNextBinIndexUnderMass(double mass);
 
 		void singularVerteilung(int binNumber);
 		double calcKollisionsrate();
