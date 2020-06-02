@@ -24,12 +24,10 @@ PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, 
 gets the total mass of the system. 
 */
 double PlanetSystem::getTotalMass() {
-	double totalMass = 1.0;
+	double totalMass = 0.0;
 	for (auto &x : this->bin_list) {
+		
 		totalMass += x->getGesMasse();	// Aufsummierung der Gesamtmassen der einzelnen Bins
-
-		if(x->getGesMasse() > 0)
-		std::cout << "total mass jetzt: " << totalMass << std::endl;
 	}
 	return totalMass;
 }
@@ -69,17 +67,14 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end) {
 //TODO end stimmt nicht ganz wes werden alle 
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
 	double restMasse = gesMass;
-	int index = findNextBinIndexUnderMass(restMasse);
+	int index = findNextBinIndexUnderMass(start);
 	while (restMasse > 0.001) {
 		Bin* x = bin_list[index];
-		double anzahl = 0;
-		while (anzahl < 20*pow(x->massenWert, -11.0 / 6.0)) {
-
-			x->addTeilchen(new Teilchen(x->massenWert, dichte, true));
-			restMasse -= x->massenWert;
-			std::cout << " added a teilchen with mass: " << x->massenWert << std::endl;
-			anzahl++;
-		}
+		double anzahl = pow(x->massenWert, -11.0 / 6.0);
+		x->addAnzahlTeilchen(anzahl);
+		std::cout << "added " << anzahl << " Teilchen mit masse " << x->massenWert << std::endl;
+		restMasse -= x->massenWert * anzahl;
+		
 		if (index > 0) {
 			index--;
 		}
@@ -93,7 +88,7 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesM
 	might return a NullPointer  nullCheck first
 */
 Bin* PlanetSystem::findNextBinUnderMass(double mass) {
-	Bin* aktuell = new Bin(mass);
+	Bin* aktuell = new Bin(mass, 0);
 	for (auto& x : bin_list) {
 		if (x->massenWert <= mass) {
 			aktuell = x;
@@ -105,12 +100,13 @@ Bin* PlanetSystem::findNextBinUnderMass(double mass) {
 Findet den naechsten bin list index unterhalb (<=) der gegebenen masse
 */
 int PlanetSystem::findNextBinIndexUnderMass(double mass) {
-	int aktuell;
+	int aktuell = 0;
 	for (int i = 0; i <= bin_list.size(); i++) {
 		if (bin_list[i]->massenWert <= mass) {
 			aktuell = i;
 		}
 		else {
+			std::cout << "abbruch bei masse von " << mass << " untersuchtes bin: " << bin_list[aktuell]->massenWert;
 			break;
 		}
 	}

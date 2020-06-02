@@ -10,6 +10,8 @@
 #include "Bin.h"
 #include "PlanetSystem.h"
 #include "Teilchen.h"
+#define M_PI       3.14159265358979323846   // pi
+
 using namespace std;
 
 double gesMasse;
@@ -22,7 +24,7 @@ double volumen;
 gibt den absolut pfad zur config datei, in der die startwerte gespeichert sind an.
 */
 const string config_filename = "anfagswerte.txt";
-PlanetSystem main_system;
+PlanetSystem* main_system;
 
 
 
@@ -71,6 +73,13 @@ void readValuesFromFile(string filename, double &sMin, double&sMax, double&dicht
  //--------------------------------------------------------------------------------------------------------------------------------------
  //------------------------------------------------  MATHE TOOLS ETC  -------------------------------------------------------------------
  //--------------------------------------------------------------------------------------------------------------------------------------
+/*
+returns the log to base basis of x
+*/
+double log_basis(double basis, double x) {
+	return (log(x) / log(basis));
+}
+
 
 /**
 Erzeugt ein logarithmisches Gitter im Bereich min bis basis^max mit anzahl schritten. Basis gibt dabei die log scala an mit default=10
@@ -81,7 +90,7 @@ vector<double> createLogSpace(double min, double max, int schritte, double basis
 	logspace.reserve(schritte);
 	const auto exponent = (max - min) / (schritte - 1); // Abastand zwischen zwei Punkten
 	for (int i = 0; i < schritte; i++) {
-		logspace.push_back(pow(basis, i * exponent + min));
+		logspace.push_back(pow(basis, i * exponent + log_basis(basis, min)));
 	}
 	return logspace;
 }
@@ -108,8 +117,15 @@ template<typename function_type>
 	 return ((fifteen_m1 - six_m2) + m3) / ten_dx1;
  }
 
+ /*converts a radius to a mass given a dichte*/
+ double radiusToMass(double r, double dichte) {
+	 return 4.0 / 3.0 * M_PI * pow(r, 3) * dichte;
+ }
 
-
+ /*converts a mass to a radius given a dichte*/
+  double massToRadius(double mass, double dichte) {
+	 return pow(mass * (3.0 / 4.0) * (1 / M_PI) * (1 / dichte), 1.0 / 3.0);
+ }
 
 
  /*
@@ -125,12 +141,13 @@ template<typename function_type>
 	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte*20);
 	 vector<Bin*> bins;
 	 for (auto &x : gitter) {
-		 Bin* bin =  new Bin(x); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden
+		
+		 Bin* bin =  new Bin(x, 0); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden
 		 bins.push_back(bin);
 	 }
 
 	 //create the main PlanetSystem
-	 main_system = PlanetSystem::PlanetSystem(relGeschwindigkeit, volumen, q, dichte, bins);
+	 main_system = new PlanetSystem(relGeschwindigkeit, volumen, q, dichte, bins);
  }
 
 /*
@@ -142,8 +159,8 @@ int main(int argc, char* argv[])
 	INIT();
 
 	//ruft die gewuenschte verteilung im system auf
-	main_system.potenzGesetztVerteilung(sMin, sMax, gesMasse, dichte);
-	cout << " Gesamte masse des Systems: " << main_system.getTotalMass() << endl;
+	main_system->potenzGesetztVerteilung(radiusToMass(sMin, dichte), radiusToMass(sMax, dichte), gesMasse, dichte);
+	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 
 	return 0;
 }
