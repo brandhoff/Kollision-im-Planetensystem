@@ -45,3 +45,6 @@ returns the sum of all masses from all teilchen
 		
 	}
 
+	double Bin::getRadius(double dichte) {
+		return pow(this->massenWert * (3.0 / 4.0) * (1 / M_PI) * (1 / dichte), 1.0 / 3.0);
+	}

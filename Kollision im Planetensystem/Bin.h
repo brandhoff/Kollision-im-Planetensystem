@@ -21,7 +21,7 @@ public:
 	void removeTeilchen(Teilchen teilchen);
 	double getGesMasse();
 
-
+	double getRadius(double dichte);
 	void addAnzahlTeilchen(double anzahl);
 };
 

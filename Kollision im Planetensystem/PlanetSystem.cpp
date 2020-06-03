@@ -124,6 +124,14 @@ void PlanetSystem::singularVerteilung(int binNumber) {
 }
 
 /*
+berechnet L ij
+*/
+//TODO multi ist schneller als potenz
+double PlanetSystem::lokaleKollision(double i, double j) {
+	return M_PI* std::pow((this->bin_list[i]->getRadius(this->dichte) + this->bin_list[j]->getRadius(this->dichte)), 2)* relGeschwindigkeit / volumen;
+}
+
+/*
 Berechnet die Kollisionsrate fuer die momentane konfiguration an Teilchen und derer Verteilung
 */
 double PlanetSystem::calcKollisionsrate() {

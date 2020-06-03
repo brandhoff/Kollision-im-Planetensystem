@@ -26,6 +26,9 @@ class PlanetSystem
 		double calcKollisionsrate();
 		double calcKollisionsLebensdauer();
 		double getTotalMass();
+
+		double lokaleKollision(double i, double j);
+
 	private:
 		void emptyAllBins();
 };
