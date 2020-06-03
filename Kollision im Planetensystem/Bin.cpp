@@ -24,6 +24,7 @@ void Bin::addAnzahlTeilchen(double anzahl) {
 /*
 removes the specific teilchen from the teilchen in this bin
 */
+[[deprecated("verwendet nurnoch die anzahl der teilchen als zahl und nicht als vector aus teilchen")]]
 void Bin::removeTeilchen(Teilchen teilchen) {
 	//for (auto& x : this->teilchenList) {
 		//if (teilchen.equals(x)) {

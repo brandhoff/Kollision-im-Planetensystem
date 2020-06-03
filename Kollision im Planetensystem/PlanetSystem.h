@@ -23,11 +23,11 @@ class PlanetSystem
 		int findNextBinIndexUnderMass(double mass);
 
 		void singularVerteilung(int binNumber);
-		double calcKollisionsrate();
-		double calcKollisionsLebensdauer();
+		double calcKollisionsrate(int i);
+		double calcKollisionsLebensdauer(int i);
 		double getTotalMass();
 
-		double lokaleKollision(double i, double j);
+		double lokaleKollision(int i, int j);
 
 	private:
 		void emptyAllBins();
