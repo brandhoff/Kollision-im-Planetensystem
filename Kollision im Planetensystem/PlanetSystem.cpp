@@ -134,9 +134,16 @@ double PlanetSystem::lokaleKollision(double i, double j) {
 /*
 Berechnet die Kollisionsrate fuer die momentane konfiguration an Teilchen und derer Verteilung
 */
+//TODO auf eine index lose version umsteigen
 double PlanetSystem::calcKollisionsrate() {
+	double kollision = 0.0;
+	for (int i = 0; i < this->bin_list.size(); i++) {
+		for (int j = 0; j < this->bin_list.size(); j++) {
+			kollision += this->bin_list[i]->getGesMasse() * this->bin_list[j]->getGesMasse() * lokaleKollision(i, j);
+		}
+	}
 
-	return 0.0;
+	return kollision;
 }
 
 /*
