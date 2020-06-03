@@ -67,10 +67,10 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end) {
 //TODO end stimmt nicht ganz wes werden alle 
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
 	double restMasse = gesMass;
-	int index = findNextBinIndexUnderMass(start);
+	int index = findNextBinIndexUnderMass(end);
 	while (restMasse > 0.001) {
 		Bin* x = bin_list[index];
-		double anzahl = pow(x->massenWert, -11.0 / 6.0);
+		double anzahl = (gesMass/(end-start)) * pow(x->massenWert, -11.0 / 6.0);
 		x->addAnzahlTeilchen(anzahl);
 		std::cout << "added " << anzahl << " Teilchen mit masse " << x->massenWert << std::endl;
 		restMasse -= x->massenWert * anzahl;
@@ -94,7 +94,7 @@ Bin* PlanetSystem::findNextBinUnderMass(double mass) {
 			aktuell = x;
 		}
 	}
-	return aktuell; // Might return a nullPointer. 
+	return aktuell; 
 }
 /*
 Findet den naechsten bin list index unterhalb (<=) der gegebenen masse

@@ -4,7 +4,7 @@
 class Bin
 {
 public:
-	Bin(double massenWert,long int anzahl);	// Teilchen werden entsprechend ihrer Masse den Bins zugeordnet
+	Bin(double massenWert,double anzahl);	// Teilchen werden entsprechend ihrer Masse den Bins zugeordnet
 	double anzahl;
 
 	/*
@@ -22,6 +22,6 @@ public:
 	double getGesMasse();
 
 
-	void addAnzahlTeilchen(long int anzahl);
+	void addAnzahlTeilchen(double anzahl);
 };
 

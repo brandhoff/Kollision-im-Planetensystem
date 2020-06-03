@@ -1,7 +1,7 @@
 #include "Bin.h"
 #include <iostream>
 
-Bin::Bin(double massenWert,long int anzahl) {
+Bin::Bin(double massenWert, double anzahl) {
 	this->massenWert = massenWert;
 	this->anzahl = anzahl;
 }
@@ -17,7 +17,7 @@ void Bin::addTeilchen(Teilchen *teilchen){
 
 }
 
-void Bin::addAnzahlTeilchen(long int anzahl) {
+void Bin::addAnzahlTeilchen(double anzahl) {
 	this->anzahl += anzahl;
 }
 
