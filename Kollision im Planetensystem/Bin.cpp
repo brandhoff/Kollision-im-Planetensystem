@@ -24,27 +24,23 @@ void Bin::addAnzahlTeilchen(double anzahl) {
 /*
 removes the specific teilchen from the teilchen in this bin
 */
-void Bin::removeTeilchen(Teilchen teilchen) {
-	//for (auto& x : this->teilchenList) {
-		//if (teilchen.equals(x)) {
-			//this->teilchen.erase(x);
-		//}
-	//}
+void Bin::removeTeilchen(double anzahl) {
+	this->anzahl -= anzahl;
 }
+
 /*
 returns the sum of all masses from all teilchen
 */
-	double Bin::getGesMasse() {
-		double masse = this->massenWert;
-		int anzahl = this->anzahl;
-		if(anzahl != 0){
-			std::cout << " call der ges masse mit masse in Bin :" << masse << std::endl;
-			return masse * anzahl;
-		}
-		return 0.0;
-		
+double Bin::getGesMasse() {
+	double masse = this->massenWert;
+	int anzahl = this->anzahl;
+	if(anzahl != 0){
+		std::cout << " call der ges masse mit masse in Bin :" << masse << std::endl;
+		return masse * anzahl;
 	}
+	return 0.0;	
+}
 
-	double Bin::getRadius(double dichte) {
-		return pow(this->massenWert * (3.0 / 4.0) * (1 / M_PI) * (1 / dichte), 1.0 / 3.0);
-	}
+double Bin::getRadius(double dichte) {
+	return pow(this->massenWert * (3.0 / 4.0) * (1 / M_PI) * (1 / dichte), 1.0 / 3.0);
+}
