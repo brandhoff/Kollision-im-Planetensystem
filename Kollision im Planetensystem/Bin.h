@@ -18,7 +18,7 @@ public:
 	*/
 	double massenWert;
 	void addTeilchen(Teilchen* teilchen);
-	void removeTeilchen(Teilchen teilchen);
+	void removeTeilchen(double anzahl);
 	double getGesMasse();
 
 	double getRadius(double dichte);
