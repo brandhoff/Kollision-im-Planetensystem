@@ -127,7 +127,7 @@ void PlanetSystem::singularVerteilung(int binNumber) {
 berechnet L ij
 */
 //TODO multi ist schneller als potenz
-double PlanetSystem::lokaleKollision(double i, double j) {
+double PlanetSystem::lokaleKollision(int i, int j) {
 	return M_PI* std::pow((this->bin_list[i]->getRadius(this->dichte) + this->bin_list[j]->getRadius(this->dichte)), 2)* relGeschwindigkeit / volumen;
 }
 
@@ -135,13 +135,12 @@ double PlanetSystem::lokaleKollision(double i, double j) {
 Berechnet die Kollisionsrate fuer die momentane konfiguration an Teilchen und derer Verteilung
 */
 //TODO auf eine index lose version umsteigen
-double PlanetSystem::calcKollisionsrate() {
+double PlanetSystem::calcKollisionsrate(int i) {
 	double kollision = 0.0;
-	for (int i = 0; i < this->bin_list.size(); i++) {
 		for (int j = 0; j < this->bin_list.size(); j++) {
-			kollision += this->bin_list[i]->getGesMasse() * this->bin_list[j]->getGesMasse() * lokaleKollision(i, j);
+			kollision += this->bin_list[i]->massenWert * this->bin_list[j]->massenWert * lokaleKollision(i, j);
 		}
-	}
+	
 
 	return kollision;
 }
@@ -149,9 +148,9 @@ double PlanetSystem::calcKollisionsrate() {
 /*
 Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Teilchen und derer Verteilung
 */
-double PlanetSystem::calcKollisionsLebensdauer() {
+double PlanetSystem::calcKollisionsLebensdauer(int i) {
 
-	return 0.0;
+	return calcKollisionsrate(i)/this->bin_list[i]->massenWert;
 }
 
 
