@@ -125,8 +125,8 @@ double PlanetSystem::lokaleKollision(int i, int j) {
 beschreibt wie viele Teilchen bei einer kollision von j und k an der stelle i entstehen
 
 */
-double PlanetSystem::lokalerGewinn(int i, int j, int k) {
-
+double PlanetSystem::lokalerGewinn(int j, int k, double factor) {
+	return lokaleKollision(j, k) * factor;
 }
 
 
@@ -154,15 +154,30 @@ double PlanetSystem::calcKollisionsLebensdauer(int i) {
 }
 
 /*
+gibt den gewinnterm fuer das ite bin wieder
 */
 double PlanetSystem::calcGewinnTerme(double i) {
 	double gewinn = 0.0;
 	for (int j = 0; j < this->bin_list.size(); j++) {
 		for (int k = 0; k < this->bin_list.size(); k++) {
-			gewinn += this->bin_list[k]->anzahl * this->bin_list[j]->anzahl;
+			gewinn += this->bin_list[k]->anzahl * this->bin_list[j]->anzahl * lokalerGewinn(j, k, 1.0);
 		}
 	}
 }
+
+
+
+void PlanetSystem::zeitEntwicklung(int schritte, double time) {
+	while (time > 0) {
+
+		for (int i = 0; i < this->bin_list.size(); i++) {
+			bin_list[i]->addAnzahlTeilchen(calcGewinnTerme(i));
+		}
+
+		time--;
+	}
+}
+
 
 /*
 leert alle Bins im System
