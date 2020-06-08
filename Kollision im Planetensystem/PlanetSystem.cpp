@@ -149,6 +149,7 @@ double PlanetSystem::calcKollisionsrate(int i) {
 	return kollision;
 }
 
+
 /*
 Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Teilchen und derer Verteilung
 */
