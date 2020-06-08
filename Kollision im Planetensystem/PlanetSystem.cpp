@@ -3,6 +3,7 @@
 #include "Bin.h"
 #include "Teilchen.h"
 #include <iostream>
+#include <fstream>
 //DIESE KLASSE WIRD GENUTZT UM MEHRERE SYSTEM GLEICHZEITIG ZU MODDELIEREN UND ZU KoNFIGURIEREN
 
 PlanetSystem::PlanetSystem(){
@@ -72,11 +73,13 @@ double sclaingFactor(double m_min, double m_max, double gesMass) {
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
 	double restMasse = gesMass;
 	int index = findNextBinIndexUnderMass(end);
+	std::ofstream ofs("Massenverteilung.txt");
 	while (restMasse > 0.001) {
 		Bin* x = bin_list[index];
 		double anzahl = sclaingFactor(start,end,gesMass)*pow(x->massenWert, -5.0 / 6.0 );
 		x->addAnzahlTeilchen(anzahl);
 		std::cout << "added " << anzahl << " Teilchen mit masse " << x->massenWert << std::endl;
+		ofs << x->massenWert << "\t" << anzahl << std::endl;
 		restMasse -= x->massenWert * anzahl;
 		
 		if (index > 0) {
@@ -84,7 +87,7 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesM
 		}
 		else break;
 	}
-
+	ofs.close();
 }
 
 /*
@@ -123,8 +126,9 @@ Verteilt die Teilchen singulaer
 binNumber gibt das Bin an, welches mit Teilchen gefüllt werden soll
 
 */
-void PlanetSystem::singularVerteilung(int binNumber) {
-	
+void PlanetSystem::singularVerteilung(int binNumber, double gesMass, double start, double end) {
+	double anzahl = (gesMass / (end - start)) * pow(bin_list[binNumber]->massenWert, -5.0 / 6.0); 
+	bin_list[binNumber]->addAnzahlTeilchen(anzahl);
 }
 
 /*
