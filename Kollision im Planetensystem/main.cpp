@@ -77,6 +77,11 @@ void readValuesFromFile(string filename, double &sMin, double&sMax, double&dicht
 returns the log to base basis of x
 */
 double log_basis(double basis, double x) {
+	if (basis <= 0 || x <= 0) {
+		cout << "Negative logarithmen sind nicht gut";
+		cin;
+	}
+		
 	return (log(x) / log(basis));
 }
 
@@ -88,7 +93,8 @@ Erzeugt ein logarithmisches Gitter im Bereich min bis basis^max mit anzahl schri
 vector<double> createLogSpace(double min, double max, int schritte, double basis = 10) {
 	vector<double> logspace;
 	logspace.reserve(schritte);
-	const auto exponent = (max - min) / (schritte - 1); // Abastand zwischen zwei Punkten
+	double sc = schritte;
+	double exponent = (max - min) / (sc - 1); // Abastand zwischen zwei Punkten
 	for (int i = 0; i < schritte; i++) {
 		logspace.push_back(pow(basis, i * exponent + log_basis(basis, min)));
 	}

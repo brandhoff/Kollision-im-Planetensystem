@@ -11,13 +11,13 @@ class PlanetSystem
 		double q;
 		double dichte;
 
-		std::ofstream fileKollisionsLebensdauer;
-		std::ofstream fileMassenverteilung;
+
+
 
 		PlanetSystem();
 		PlanetSystem(double relGeschwindigkeit, double volumen, double q, double dichte, std::vector<Bin*> bin_list);
 		
-		
+		double scalingFactor(double m_min, double m_max, double gesMass);
 		std::vector<Teilchen> getAllTeilchenWithin(double min, double max);
 		void collide(Teilchen partner1, Teilchen partner2);
 		void potenzGesetztVerteilung(double start, double end, double gesMass, double dichte);
@@ -32,6 +32,7 @@ class PlanetSystem
 		void zeitEntwicklung(int schritte, double time);
 		double lokaleKollision(int i, int j);
 		double calcGewinnTerme(double i);
+		
 	private:
 		void emptyAllBins();
 };

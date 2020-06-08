@@ -2,6 +2,7 @@
 #include <iostream>
 
 Bin::Bin(double massenWert, double anzahl) {
+	std::cout << massenWert << std::endl;
 	this->massenWert = massenWert;
 	this->anzahl = anzahl;
 }
