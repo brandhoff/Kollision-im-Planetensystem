@@ -17,7 +17,6 @@ class PlanetSystem
 		
 		std::vector<Teilchen> getAllTeilchenWithin(double min, double max);
 		void collide(Teilchen partner1, Teilchen partner2);
-		void potenzGesetztVerteilung(double start, double end);
 		void potenzGesetztVerteilung(double start, double end, double gesMass, double dichte);
 		Bin* findNextBinUnderMass(double mass);
 		int findNextBinIndexUnderMass(double mass);
@@ -26,6 +25,7 @@ class PlanetSystem
 		double calcKollisionsrate(int i);
 		double calcKollisionsLebensdauer(int i);
 		double getTotalMass();
+		double lokalerGewinn(int i, int j, int k);
 
 		double lokaleKollision(int i, int j);
 		double calcGewinnTerme(double i);

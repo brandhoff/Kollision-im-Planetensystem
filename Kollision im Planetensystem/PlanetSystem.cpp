@@ -46,24 +46,6 @@ verteilt die teilchen gemaess des potenzgesetzes fuer massen
 im bereich start und end
 */
 
-//TODO DER MUSS NEU GESCHRIEBEN WERDEN DAS IST NONSENS WAS PASSIERT --> zu wenig bins im bereich fuehrt dazu dass zu wenig teilchen gefuellt 
-//werden und so nur ein oder zwei teilchen mit masse 1 oder weniger in dem Bereich landen. moeglicher fix: mehr bins-> mehr rechnung mehr gitter doof; 
-//anderer fix teilchen in intervallen zu bins zuordnen, dafuer 1D abstaende zsischen benachbarten bins anschauen
-
-//WEITERER LOGIK FEHLER: problem teilchen anzahl wird nicht erhoeht wenn dann wird immer nur ein teilchen mit anderer masse hinzugefuegt was bedeutetnd anders ist als teilchenanzahl
-void PlanetSystem::potenzGesetztVerteilung(double start, double end) {
-	for (auto &x : this->bin_list) {
-		if (end < x->massenWert) continue;
-		if (start < x->massenWert) {
-			for (double i = 0; i < pow(x->massenWert, -11.0 / 6.0); i++) {
-				//x.addTeilchen(Teilchen::Teilchen(x.massenWert, dichte, true));
-				//std::cout << "added teilchen mass: " << x.massenWert;
-
-			} // befülle Bin mit n(m)^(-11/6) Teilchen}
-
-		}
-	}
-}
 
 double sclaingFactor(double m_min, double m_max, double gesMass) {
 	return (gesMass) / (6 * pow((m_max - m_min), (1 / 6)));
@@ -140,6 +122,15 @@ double PlanetSystem::lokaleKollision(int i, int j) {
 }
 
 /*
+beschreibt wie viele Teilchen bei einer kollision von j und k an der stelle i entstehen
+
+*/
+double PlanetSystem::lokalerGewinn(int i, int j, int k) {
+
+}
+
+
+/*
 Berechnet die Kollisionsrate fuer die momentane konfiguration an Teilchen und derer Verteilung
 */
 //TODO auf eine index lose version umsteigen
@@ -168,7 +159,7 @@ double PlanetSystem::calcGewinnTerme(double i) {
 	double gewinn = 0.0;
 	for (int j = 0; j < this->bin_list.size(); j++) {
 		for (int k = 0; k < this->bin_list.size(); k++) {
-
+			gewinn += this->bin_list[k]->anzahl * this->bin_list[j]->anzahl;
 		}
 	}
 }

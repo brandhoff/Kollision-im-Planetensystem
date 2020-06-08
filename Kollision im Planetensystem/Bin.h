@@ -20,7 +20,6 @@ public:
 	void addTeilchen(Teilchen* teilchen);
 	void removeTeilchen(double anzahl);
 	double getGesMasse();
-
 	double getRadius(double dichte);
 	void addAnzahlTeilchen(double anzahl);
 };
