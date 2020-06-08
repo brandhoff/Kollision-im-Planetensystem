@@ -161,6 +161,11 @@ double PlanetSystem::calcKollisionsLebensdauer(int i) {
 	return calcKollisionsrate(i)/this->bin_list[i]->massenWert;
 }
 
+/*
+*/
+double PlanetSystem::calcGewinnTerme(double i) {
+
+}
 
 /*
 leert alle Bins im System

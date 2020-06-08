@@ -28,7 +28,7 @@ class PlanetSystem
 		double getTotalMass();
 
 		double lokaleKollision(int i, int j);
-
+		double calcGewinnTerme(double i);
 	private:
 		void emptyAllBins();
 };
