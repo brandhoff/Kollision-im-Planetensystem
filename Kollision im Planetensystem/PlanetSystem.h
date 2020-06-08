@@ -11,6 +11,9 @@ class PlanetSystem
 		double q;
 		double dichte;
 
+		std::ofstream fileKollisionsLebensdauer;
+		std::ofstream fileMassenverteilung;
+
 		PlanetSystem();
 		PlanetSystem(double relGeschwindigkeit, double volumen, double q, double dichte, std::vector<Bin*> bin_list);
 		
