@@ -52,8 +52,8 @@ im bereich start und end
 */
 
 
-double sclaingFactor(double m_min, double m_max, double gesMass) {
-	return (gesMass) / (6 * pow((m_max - m_min), (1 / 6)));
+double scalingFactor(double m_min, double m_max, double gesMass) {
+	return (gesMass) / (6.0 * pow((m_max - m_min), (1.0 / 6.0)));
 }
 //Implementiert idee von gross zu kleinen massen
 //TODO end stimmt nicht ganz wes werden alle 
