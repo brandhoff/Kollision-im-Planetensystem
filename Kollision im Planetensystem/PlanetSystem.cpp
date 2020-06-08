@@ -3,6 +3,7 @@
 #include "Bin.h"
 #include "Teilchen.h"
 #include <iostream>
+#include <fstream>
 //DIESE KLASSE WIRD GENUTZT UM MEHRERE SYSTEM GLEICHZEITIG ZU MODDELIEREN UND ZU KoNFIGURIEREN
 
 PlanetSystem::PlanetSystem(){
@@ -68,11 +69,13 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end) {
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
 	double restMasse = gesMass;
 	int index = findNextBinIndexUnderMass(end);
+	std::ofstream ofs("ausgabe.txt");
 	while (restMasse > 0.001) {
 		Bin* x = bin_list[index];
-		double anzahl = (gesMass/(end-start)) * pow(x->massenWert, -11.0 / 6.0);
+		double anzahl = (gesMass/(end-start)) * pow(x->massenWert, -5.0 / 6.0);
 		x->addAnzahlTeilchen(anzahl);
 		std::cout << "added " << anzahl << " Teilchen mit masse " << x->massenWert << std::endl;
+		ofs << x->massenWert << "\t" << anzahl << std::endl;
 		restMasse -= x->massenWert * anzahl;
 		
 		if (index > 0) {
@@ -80,7 +83,7 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesM
 		}
 		else break;
 	}
-
+	ofs.close();
 }
 
 /*
@@ -119,8 +122,9 @@ Verteilt die Teilchen singulaer
 binNumber gibt das Bin an, welches mit Teilchen gefüllt werden soll
 
 */
-void PlanetSystem::singularVerteilung(int binNumber) {
-	
+void PlanetSystem::singularVerteilung(int binNumber, double gesMass, double start, double end) {
+	double anzahl = (gesMass / (end - start)) * pow(bin_list[binNumber]->massenWert, -5.0 / 6.0); 
+	bin_list[binNumber]->addAnzahlTeilchen(anzahl);
 }
 
 /*
@@ -150,7 +154,7 @@ Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Te
 */
 double PlanetSystem::calcKollisionsLebensdauer(int i) {
 
-	return calcKollisionsrate(i)/this->bin_list[i]->massenWert;
+	return this->bin_list[i]->massenWert / calcKollisionsrate(i);
 }
 
 
