@@ -136,7 +136,7 @@ berechnet L ij
 */
 //TODO multi ist schneller als potenz
 double PlanetSystem::lokaleKollision(int i, int j) {
-	return M_PI* std::pow((this->bin_list[i]->getRadius(this->dichte) + this->bin_list[j]->getRadius(this->dichte)), 2)* relGeschwindigkeit / volumen;
+	return M_PI* std::pow((this->bin_list[i]->getRadius(this->dichte) + this->bin_list[j]->getRadius(this->dichte)), 2)* relGeschwindigkeit / this->volumen;
 }
 
 /*
@@ -165,7 +165,12 @@ double PlanetSystem::calcKollisionsLebensdauer(int i) {
 /*
 */
 double PlanetSystem::calcGewinnTerme(double i) {
+	double gewinn = 0.0;
+	for (int j = 0; j < this->bin_list.size(); j++) {
+		for (int k = 0; k < this->bin_list.size(); k++) {
 
+		}
+	}
 }
 
 /*
