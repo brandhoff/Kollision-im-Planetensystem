@@ -161,6 +161,12 @@ int main(int argc, char* argv[])
 	//ruft die gewuenschte verteilung im system auf
 	main_system->potenzGesetztVerteilung(radiusToMass(sMin, dichte), radiusToMass(sMax, dichte), gesMasse, dichte);
 	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
+	
+	std::ofstream ofs("Kollisionsrate.txt");
+	for (int i = 0; i < main_system->bin_list.size(); i++) {
+		ofs << main_system->calcKollisionsrate(i) << std::endl;
+	}
 
+	ofs.close();
 	return 0;
 }
