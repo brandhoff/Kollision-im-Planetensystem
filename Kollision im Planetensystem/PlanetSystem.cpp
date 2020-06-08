@@ -64,6 +64,10 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end) {
 		}
 	}
 }
+
+double sclaingFactor(double m_min, double m_max, double gesMass) {
+	return (gesMass) / (6 * pow((m_max - m_min), (1 / 6)));
+}
 //Implementiert idee von gross zu kleinen massen
 //TODO end stimmt nicht ganz wes werden alle 
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
@@ -72,7 +76,7 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesM
 	std::ofstream ofs("Massenverteilung.txt");
 	while (restMasse > 0.001) {
 		Bin* x = bin_list[index];
-		double anzahl = (gesMass/(end-start)) * pow(x->massenWert, -5.0 / 6.0);
+		double anzahl = sclaingFactor(start,end,gesMass)*pow(x->massenWert, -5.0 / 6.0 );
 		x->addAnzahlTeilchen(anzahl);
 		std::cout << "added " << anzahl << " Teilchen mit masse " << x->massenWert << std::endl;
 		ofs << x->massenWert << "\t" << anzahl << std::endl;
@@ -142,7 +146,7 @@ Berechnet die Kollisionsrate fuer die momentane konfiguration an Teilchen und de
 double PlanetSystem::calcKollisionsrate(int i) {
 	double kollision = 0.0;
 		for (int j = 0; j < this->bin_list.size(); j++) {
-			kollision += this->bin_list[i]->massenWert * this->bin_list[j]->massenWert * lokaleKollision(i, j);
+			kollision += this->bin_list[i]->anzahl * this->bin_list[j]->anzahl * lokaleKollision(i, j);
 		}
 	
 
@@ -155,7 +159,7 @@ Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Te
 */
 double PlanetSystem::calcKollisionsLebensdauer(int i) {
 
-	return this->bin_list[i]->massenWert / calcKollisionsrate(i);
+	return this->bin_list[i]->anzahl/ calcKollisionsrate(i);
 }
 
 
