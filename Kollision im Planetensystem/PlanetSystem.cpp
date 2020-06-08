@@ -69,7 +69,7 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end) {
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
 	double restMasse = gesMass;
 	int index = findNextBinIndexUnderMass(end);
-	std::ofstream ofs("ausgabe.txt");
+	std::ofstream ofs("Massenverteilung.txt");
 	while (restMasse > 0.001) {
 		Bin* x = bin_list[index];
 		double anzahl = (gesMass/(end-start)) * pow(x->massenWert, -5.0 / 6.0);
