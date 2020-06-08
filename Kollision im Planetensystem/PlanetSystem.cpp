@@ -158,7 +158,7 @@ Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Te
 */
 double PlanetSystem::calcKollisionsLebensdauer(int i) {
 
-	return this->bin_list[i]->anzahl/ calcKollisionsrate(i);
+	return calcKollisionsrate(i)/this->bin_list[i]->massenWert;
 }
 
 
