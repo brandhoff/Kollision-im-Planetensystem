@@ -1,4 +1,4 @@
-#include "PlanetSystem.h"
+﻿#include "PlanetSystem.h"
 #include <vector>
 #include "Bin.h"
 #include "Teilchen.h"
@@ -112,7 +112,7 @@ int PlanetSystem::findNextBinIndexUnderMass(double mass) {
 
 /*
 Verteilt die Teilchen singulaer
-binNumber gibt das Bin an, welches mit Teilchen gef�llt werden soll
+binNumber gibt das Bin an, welches mit Teilchen gefüllt werden soll
 
 */
 void PlanetSystem::singularVerteilung(int binNumber, double gesMass, double start, double end) {
@@ -161,29 +161,39 @@ double PlanetSystem::calcKollisionsLebensdauer(int i) {
 }
 
 /*
-gibt den gewinnterm fuer das ite bin wieder
+
 */
 double PlanetSystem::calcGewinnTerme(double i) {
-	double gewinn = 0.0;
+	double wachstum = 0.0;
 	for (int j = 0; j < this->bin_list.size(); j++) {
 		for (int k = 0; k < this->bin_list.size(); k++) {
-			gewinn += this->bin_list[k]->anzahl * this->bin_list[j]->anzahl * lokalerGewinn(j, k, 1.0);
+
+			double neueMasse = bin_list[i]->massenWert + bin_list[j]->massenWert;
+			zielBinIndex = findNextBinIndexUnderMass(neueMasse);
+			wachstum += lokaleKollision(i,j) * bin_list[i]->anzahl / bin_list[j]->anzahl * (bin_list[i]->massenWert / bin_list[j]->massenWert)
+
 		}
 	}
 
-	return gewinn;
+	return wachstum;
 }
 
 
 
-void PlanetSystem::zeitEntwicklung(int schritte, double time) {
+void PlanetSystem::zeitEntwicklung(double schritte, double time) {
+	double aenderung = 0.0;
+	
+	time = time * 365.25*86400;
 	while (time > 0) {
 
+
 		for (int i = 0; i < this->bin_list.size(); i++) {
-			bin_list[i]->addAnzahlTeilchen(calcGewinnTerme(i));
+			aenderung += this->calcKollisionsrate(i) - this->calcGewinnTerme(i);
 		}
 
-		time--;
+		
+		time = time - schritte;
+		time / 365.25*86400;
 	}
 }
 
