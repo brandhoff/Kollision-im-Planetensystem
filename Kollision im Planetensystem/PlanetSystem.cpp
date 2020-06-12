@@ -48,7 +48,7 @@ verteilt die teilchen gemaess des potenzgesetzes fuer massen
 im bereich start und end
 */
 double PlanetSystem::scalingFactor(double m_min, double m_max, double gesMass) {
-	return (gesMass) / (6.0 * pow((m_max - m_min), (1.0 / 6.0)));
+	return (gesMass) / (6.0 * pow(m_max, (1.0 / 6.0))- (6.0 * pow(m_min, (1.0 / 6.0))));
 }
 //Implementiert idee von gross zu kleinen massen
 //TODO end stimmt nicht ganz wes werden alle 
@@ -153,7 +153,7 @@ double PlanetSystem::calcGewinnTerme(double i) {
 			double neueMasse = bin_list[i]->massenWert + bin_list[j]->massenWert;
 			int zielBinIndex = findNextBinIndexUnderMass(neueMasse);
 			bin_list[zielBinIndex]->addAnzahlTeilchen(1);
-			wachstum += lokaleKollision(i, j) * bin_list[i]->anzahl / bin_list[j]->anzahl * (bin_list[i]->massenWert / bin_list[j]->massenWert);
+			wachstum += lokaleKollision(i, j) * bin_list[i]->anzahl / bin_list[j]->anzahl * (neueMasse / bin_list[zielBinIndex]->massenWert);
 			//std::cout << "gewinnterm: " << wachstum << std::endl;
 		}
 	}
@@ -185,12 +185,12 @@ void PlanetSystem::calcALLKollisionsrate() {
 void PlanetSystem::zeitEntwicklung(double schritt, double time) {
 	double aenderung = 0.0;
 	
-	//time = time * 365.25*86400;
-	//schritte = schritte * 365.25 * 86400;
+	time = time * 365.25*86400;
+	schritt = schritt * 365.25 * 86400;
 	while (time > 0) {
 
 		for (int i = 0; i < this->bin_list.size(); i++) {
-			aenderung += this->kollisionsRaten[i] - this->wachstumBins[i];
+			aenderung += (this->kollisionsRaten[i] - this->wachstumBins[i]) * schritt;
 		}
 
 		
