@@ -8,6 +8,7 @@
 //DIESE KLASSE WIRD GENUTZT UM MEHRERE SYSTEM GLEICHZEITIG ZU MODDELIEREN UND ZU KoNFIGURIEREN
 
 std::ofstream fileKollisionsLebensdauer("Lebensdauer.txt");
+std::ofstream fileKollisionsrate("Kollisionsrate.txt");
 std::ofstream fileMassenverteilung("Massenverteilung.txt");
 
 PlanetSystem::PlanetSystem(){
@@ -171,8 +172,11 @@ void PlanetSystem::calcALLGewinnTerme() {
 	}
 }
 void PlanetSystem::calcALLKollisionsrate() {
+	double kollisionsrate;
 	for (int i = 0; i < bin_list.size(); i++) {
-		this->kollisionsRaten.push_back(calcKollisionsrate(i));
+		kollisionsrate = calcKollisionsrate(i);
+		this->kollisionsRaten.push_back(kollisionsrate);
+		fileKollisionsrate << bin_list[i]->massenWert << "\t" << kollisionsrate << std::endl;
 	}
 }
 
