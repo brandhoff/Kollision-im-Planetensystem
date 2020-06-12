@@ -94,34 +94,17 @@ vector<double> createLogSpace(double min, double max, int schritte, double basis
 	vector<double> logspace;
 	logspace.reserve(schritte);
 	double sc = schritte;
-	double exponent = (max - min) / (sc - 1); // Abastand zwischen zwei Punkten
+	double exponent = (log_basis(basis,max) - log_basis(basis, min)) / (sc - 1); // Abastand zwischen zwei Punkten
 	for (int i = 0; i < schritte; i++) {
-		logspace.push_back(pow(basis, i * exponent + log_basis(basis, min)));
+		double wert = pow(basis, i * exponent + log_basis(basis, min));
+
+		logspace.push_back(wert);
 	}
 	return logspace;
 }
 
 
- /*
- Bildet die Ableitung einer Funktion an der stelle x mit schrittweite dx. Die ableitung konvergiert in 6.Ordnung 
- */
-template<typename function_type>
- double derivative(double x, float dx, function_type funktion)
- {
-	 const double dx1 = dx;
-	 const double dx2 = dx1 * 2;
-	 const double dx3 = dx1 * 3;
 
-	 const double m1 = (funktion(x + dx1) - funktion(x - dx1)) / 2;
-	 const double m2 = (funktion(x + dx2) - funktion(x - dx2)) / 4;
-	 const double m3 = (funktion(x + dx3) - funktion(x - dx3)) / 6;
-
-	 const double fifteen_m1 = 15 * m1;
-	 const double six_m2 = 6 * m2;
-	 const double ten_dx1 = 10 * dx1;
-
-	 return ((fifteen_m1 - six_m2) + m3) / ten_dx1;
- }
 
  /*converts a radius to a mass given a dichte*/
  double radiusToMass(double r, double dichte) {
@@ -144,11 +127,12 @@ template<typename function_type>
 	 sMin = 0;
 	 readValuesFromFile(config_filename, sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
 	
-	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte*20);
+
+	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte);
 	 vector<Bin*> bins;
 	 for (auto &x : gitter) {
 		
-		 Bin* bin =  new Bin(x, 0); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden
+		 Bin* bin =  new Bin(radiusToMass(x, dichte), 0); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden
 		 bins.push_back(bin);
 	 }
 

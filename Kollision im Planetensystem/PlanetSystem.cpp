@@ -4,6 +4,7 @@
 #include "Teilchen.h"
 #include <iostream>
 #include <fstream>
+#include <cmath>
 //DIESE KLASSE WIRD GENUTZT UM MEHRERE SYSTEM GLEICHZEITIG ZU MODDELIEREN UND ZU KoNFIGURIEREN
 
 std::ofstream fileKollisionsLebensdauer("Lebensdauer.txt");
@@ -54,8 +55,6 @@ void PlanetSystem::collide(Teilchen partner1, Teilchen partner2){
 verteilt die teilchen gemaess des potenzgesetzes fuer massen
 im bereich start und end
 */
-
-
 double PlanetSystem::scalingFactor(double m_min, double m_max, double gesMass) {
 	return (gesMass) / (6.0 * pow((m_max - m_min), (1.0 / 6.0)));
 }
@@ -64,24 +63,24 @@ double PlanetSystem::scalingFactor(double m_min, double m_max, double gesMass) {
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
 	double restMasse = gesMass;
 	int index = findNextBinIndexUnderMass(end);
-	while (restMasse > 0.001) {
+	while (true) { // restMasse > 0.00001
 		Bin* x = bin_list[index];
 		double anzahl = scalingFactor(start, end, gesMass)*pow(x->massenWert, -5.0 / 6.0 );
 		x->addAnzahlTeilchen(anzahl);
-		std::cout << "added " << anzahl << " Teilchen mit masse " << x->massenWert << std::endl;
+		//std::cout << x->massenWert << "\t" << anzahl << std::endl;
 		fileMassenverteilung << x->massenWert << "\t" << anzahl << std::endl;
 		restMasse -= x->massenWert * anzahl;
 		
 		if (index > 0) {
 			index--;
 		}
-		else break;
+		else break; // wird meistens nicht gecallt meistens bricht die masse ab
+		
 	}
 }
 
 /*
 	findet das nachste Bin unterhalb (<=) der gegebenen masse
-	might return a NullPointer  nullCheck first
 */
 Bin* PlanetSystem::findNextBinUnderMass(double mass) {
 	Bin* aktuell = new Bin(mass, 0);
@@ -102,7 +101,6 @@ int PlanetSystem::findNextBinIndexUnderMass(double mass) {
 			aktuell = i;
 		}
 		else {
-			std::cout << "abbruch bei masse von " << mass << " untersuchtes bin: " << bin_list[aktuell]->massenWert;
 			break;
 		}
 	}
@@ -123,18 +121,10 @@ void PlanetSystem::singularVerteilung(int binNumber, double gesMass, double star
 /*
 berechnet L ij
 */
-//TODO multi ist schneller als potenz
 double PlanetSystem::lokaleKollision(int i, int j) {
 	return M_PI* std::pow((this->bin_list[i]->getRadius(this->dichte) + this->bin_list[j]->getRadius(this->dichte)), 2)* relGeschwindigkeit / this->volumen;
 }
 
-/*
-beschreibt wie viele Teilchen bei einer kollision von j und k an der stelle i entstehen
-
-*/
-double PlanetSystem::lokalerGewinn(int j, int k, double factor) {
-	return lokaleKollision(j, k) * factor;
-}
 
 
 /*
@@ -167,7 +157,7 @@ double PlanetSystem::calcGewinnTerme(double i) {
 	double gewinn = 0.0;
 	for (int j = 0; j < this->bin_list.size(); j++) {
 		for (int k = 0; k < this->bin_list.size(); k++) {
-			gewinn += this->bin_list[k]->anzahl * this->bin_list[j]->anzahl * lokalerGewinn(j, k, 1.0);
+			gewinn += this->bin_list[k]->anzahl * this->bin_list[j]->anzahl;
 		}
 	}
 

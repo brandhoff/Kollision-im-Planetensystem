@@ -2,7 +2,7 @@
 #include <iostream>
 
 Bin::Bin(double massenWert, double anzahl) {
-	std::cout << massenWert << std::endl;
+	
 	this->massenWert = massenWert;
 	this->anzahl = anzahl;
 }
@@ -36,7 +36,6 @@ double Bin::getGesMasse() {
 	double masse = this->massenWert;
 	int anzahl = this->anzahl;
 	if(anzahl != 0){
-		std::cout << " call der ges masse mit masse in Bin :" << masse << std::endl;
 		return masse * anzahl;
 	}
 	return 0.0;	
