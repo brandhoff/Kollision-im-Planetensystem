@@ -151,7 +151,7 @@ double PlanetSystem::calcKollisionsLebensdauer(int i) {
 }
 
 /*
-
+ideale kollision
 */
 double PlanetSystem::calcGewinnTerme(double i) {
 	double wachstum = 0.0;
@@ -159,8 +159,9 @@ double PlanetSystem::calcGewinnTerme(double i) {
 		for (int k = 0; k < this->bin_list.size(); k++) {
 
 			double neueMasse = bin_list[i]->massenWert + bin_list[j]->massenWert;
-			zielBinIndex = findNextBinIndexUnderMass(neueMasse);
-			wachstum += lokaleKollision(i,j) * bin_list[i]->anzahl / bin_list[j]->anzahl * (bin_list[i]->massenWert / bin_list[j]->massenWert)
+			int zielBinIndex = findNextBinIndexUnderMass(neueMasse);
+			bin_list[zielBinIndex]->addAnzahlTeilchen(1);
+			wachstum += lokaleKollision(i, j) * bin_list[i]->anzahl / bin_list[j]->anzahl * (bin_list[i]->massenWert / bin_list[j]->massenWert);
 
 		}
 	}

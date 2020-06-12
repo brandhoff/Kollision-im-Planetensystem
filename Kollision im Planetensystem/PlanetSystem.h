@@ -28,7 +28,7 @@ class PlanetSystem
 		double calcKollisionsrate(int i);
 		double calcKollisionsLebensdauer(int i);
 		double getTotalMass();
-		void zeitEntwicklung(int schritte, double time);
+		void zeitEntwicklung(double schritte, double time);
 		double lokaleKollision(int i, int j);
 		double calcGewinnTerme(double i);
 		
