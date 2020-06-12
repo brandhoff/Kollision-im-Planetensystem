@@ -153,7 +153,7 @@ double PlanetSystem::calcGewinnTerme(double i) {
 			int zielBinIndex = findNextBinIndexUnderMass(neueMasse);
 			bin_list[zielBinIndex]->addAnzahlTeilchen(1);
 			wachstum += lokaleKollision(i, j) * bin_list[i]->anzahl / bin_list[j]->anzahl * (bin_list[i]->massenWert / bin_list[j]->massenWert);
-
+			//std::cout << "gewinnterm: " << wachstum << std::endl;
 		}
 	}
 	return wachstum;
@@ -165,9 +165,8 @@ double PlanetSystem::calcGewinnTerme(double i) {
 
 void PlanetSystem::calcALLGewinnTerme() {
 	for (int i = 0; i < bin_list.size(); i++) {
-
 		this->wachstumBins.push_back(calcGewinnTerme(i));
-				
+			
 	}
 }
 void PlanetSystem::calcALLKollisionsrate() {
