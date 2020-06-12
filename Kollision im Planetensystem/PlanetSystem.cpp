@@ -10,7 +10,6 @@
 std::ofstream fileKollisionsLebensdauer("Lebensdauer.txt");
 std::ofstream fileMassenverteilung("Massenverteilung.txt");
 
-
 PlanetSystem::PlanetSystem(){
 	this->relGeschwindigkeit = 0;
 	this->volumen = 0;
@@ -42,14 +41,6 @@ double PlanetSystem::getTotalMass() {
 	}
 	return totalMass;
 }
-
-std::vector<Teilchen> PlanetSystem::getAllTeilchenWithin(double min, double max){
-	return std::vector<Teilchen>();
-}
-
-void PlanetSystem::collide(Teilchen partner1, Teilchen partner2){
-}
-
 
 /*
 verteilt die teilchen gemaess des potenzgesetzes fuer massen
@@ -137,7 +128,7 @@ double PlanetSystem::calcKollisionsrate(int i) {
 			kollision += this->bin_list[i]->anzahl * this->bin_list[j]->anzahl * lokaleKollision(i, j);
 		}
 	
-
+	
 	return kollision;
 }
 
@@ -165,26 +156,42 @@ double PlanetSystem::calcGewinnTerme(double i) {
 
 		}
 	}
-
 	return wachstum;
 }
 
 
 
-void PlanetSystem::zeitEntwicklung(double schritte, double time) {
+
+
+void PlanetSystem::calcALLGewinnTerme() {
+	for (int i = 0; i < bin_list.size(); i++) {
+
+		this->wachstumBins.push_back(calcGewinnTerme(i));
+				
+	}
+}
+void PlanetSystem::calcALLKollisionsrate() {
+	for (int i = 0; i < bin_list.size(); i++) {
+		this->kollisionsRaten.push_back(calcKollisionsrate(i));
+	}
+}
+
+
+
+
+void PlanetSystem::zeitEntwicklung(double schritt, double time) {
 	double aenderung = 0.0;
 	
-	time = time * 365.25*86400;
+	//time = time * 365.25*86400;
+	//schritte = schritte * 365.25 * 86400;
 	while (time > 0) {
 
-
 		for (int i = 0; i < this->bin_list.size(); i++) {
-			aenderung += this->calcKollisionsrate(i) - this->calcGewinnTerme(i);
+			aenderung += this->kollisionsRaten[i] - this->wachstumBins[i];
 		}
 
 		
-		time = time - schritte;
-		time / 365.25*86400;
+		time = time - schritt;
 	}
 }
 

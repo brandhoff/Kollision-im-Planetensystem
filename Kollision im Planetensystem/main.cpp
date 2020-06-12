@@ -156,6 +156,14 @@ int main(int argc, char* argv[])
 
 	//ruft die gewuenschte verteilung im system auf
 	main_system->potenzGesetztVerteilung(radiusToMass(sMin, dichte), radiusToMass(sMax, dichte), gesMasse, dichte);
+	main_system->calcALLKollisionsrate();
+	cout << "fertig mit kollisionsraten"<<endl;
+
+	main_system->calcALLGewinnTerme();
+	cout << "fertig mit gewinn" << endl;
+
+	main_system->zeitEntwicklung(1, 2);
+
 	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 	
 

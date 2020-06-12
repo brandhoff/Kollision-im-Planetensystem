@@ -6,6 +6,9 @@ class PlanetSystem
 {
 	public:
 		std::vector<Bin*> bin_list;
+		std::vector<double> kollisionsRaten;
+		std::vector<double> wachstumBins;
+
 		double relGeschwindigkeit;
 		double volumen;
 		double q;
@@ -18,8 +21,6 @@ class PlanetSystem
 		PlanetSystem(double relGeschwindigkeit, double volumen, double q, double dichte, std::vector<Bin*> bin_list);
 		
 		double scalingFactor(double m_min, double m_max, double gesMass);
-		std::vector<Teilchen> getAllTeilchenWithin(double min, double max);
-		void collide(Teilchen partner1, Teilchen partner2);
 		void potenzGesetztVerteilung(double start, double end, double gesMass, double dichte);
 		Bin* findNextBinUnderMass(double mass);
 		int findNextBinIndexUnderMass(double mass);
@@ -32,6 +33,10 @@ class PlanetSystem
 		double lokaleKollision(int i, int j);
 		double calcGewinnTerme(double i);
 		
+		void calcALLGewinnTerme();
+		void calcALLKollisionsrate();
+
+
 	private:
 		void emptyAllBins();
 };
