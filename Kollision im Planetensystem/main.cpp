@@ -54,16 +54,22 @@ liest alle fuer den Start benoetigten Werte aus einer Datei, wobei die keys fuer
 
 */
 void readValuesFromFile(string filename, double &sMin, double&sMax, double&dichte, double& q, double&gesMasse, double &relGeschwindigkeit, double &volumen, double&gitterMax, double&schritte) {
+	try{
+		sMin = stod(readValueFromKey(filename, "sMin:"));
+		sMax = stod(readValueFromKey(filename, "sMax:"));
+		dichte = stod(readValueFromKey(filename, "dichte:"));
+		q = stod(readValueFromKey(filename, "qini:"));
+		gesMasse = stod(readValueFromKey(filename, "Mges:"));
+		relGeschwindigkeit = stod(readValueFromKey(filename, "vrel:"));
+		volumen = stod(readValueFromKey(filename, "volumen:"));
+		gitterMax = stod(readValueFromKey(filename, "gitterMax:"));
+		schritte = stod(readValueFromKey(filename, "schritte:"));
+	}
+	catch (const std::invalid_argument& ia) {
+		cerr << "Konvertierungsfehler " << ia.what() << std::endl;
 
-	sMin = stod(readValueFromKey(filename, "sMin:"));
-	sMax = stod(readValueFromKey(filename, "sMax:"));
-	dichte = stod(readValueFromKey(filename, "dichte:"));
-	q = stod(readValueFromKey(filename, "qini:"));
-	gesMasse = stod(readValueFromKey(filename, "Mges:"));
-	relGeschwindigkeit = stod(readValueFromKey(filename, "vrel:"));
-	volumen = stod(readValueFromKey(filename, "volumen:"));
-	gitterMax = stod(readValueFromKey(filename, "gitterMax:"));
-	schritte = stod(readValueFromKey(filename, "schritte:"));
+	}
+	
 }
 
 
