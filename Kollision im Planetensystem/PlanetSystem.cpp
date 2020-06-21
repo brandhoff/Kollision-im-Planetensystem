@@ -50,20 +50,22 @@ im bereich start und end
 double PlanetSystem::scalingFactor(double m_min, double m_max, double gesMass) {
 	return (gesMass) / (6.0 * pow(m_max, (1.0 / 6.0))- (6.0 * pow(m_min, (1.0 / 6.0))));
 }
-//Implementiert idee von gross zu kleinen massen
-//TODO end stimmt nicht ganz wes werden alle 
+
+
+
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
 	double restMasse = gesMass;
 	int index = findNextBinIndexUnderMass(end);
 	while (true) { // restMasse > 0.00001
 		Bin* x = bin_list[index];
-		double anzahl = scalingFactor(start, end, gesMass)*pow(x->massenWert, -5.0 / 6.0 );
+		Bin* unter = bin_list[index - 1];
+		double anzahl = scalingFactor(start, end, gesMass)*(pow(x->massenWert, -5.0 / 6.0 )+ pow(unter->massenWert, (1.0 / 6.0)));
 		x->addAnzahlTeilchen(anzahl);
 		//std::cout << x->massenWert << "\t" << anzahl << std::endl;
 		fileMassenverteilung << x->massenWert << "\t" << anzahl << std::endl;
 		restMasse -= x->massenWert * anzahl;
 		
-		if (index > 0) {
+		if (index > 1) {
 			index--;
 		}
 		else break; // wird meistens nicht gecallt meistens bricht die masse ab
@@ -182,10 +184,11 @@ void PlanetSystem::calcALLKollisionsrate() {
 
 
 
-void PlanetSystem::zeitEntwicklung(double schritt, double time) {
+void PlanetSystem::zeitEntwicklung(double weite, double ZeitSchritt) {
 	double aenderung = 0.0;
 	
-	time = time * 365.25*86400;
+	weite = weite * 365.25*86400;
+	int vergangene_zeit = 0;
 	schritt = schritt * 365.25 * 86400;
 	while (time > 0) {
 
@@ -194,10 +197,28 @@ void PlanetSystem::zeitEntwicklung(double schritt, double time) {
 		}
 
 		
-		time = time - schritt;
+		vergangene_zeit += ZeitSchritt;
+		Weite -= ZeitSchritt;
+		vergangene_zeit = vergangene_zeit / 365.25 * 86400;
 	}
 }
 
+void PlanetSystem::zerstKollision(int i, int j, int anzahlFragmente){
+
+	double Qcrit = 10E4;
+	double masse_i = bin_list[i]->massenWert;
+	double masse_j = bin_list[j]->massenWert;
+	if (this->relGeschwindigkeit ^ 2 * 1.0 / 2.0 * masse_i * masse_j / (masse_i + masse_j) > Qcrit) {
+		double neueMasse = (masse_i + masse_j) / anzahlFragmente;
+		Bin* ziel = bin_list[findNextBinIndexUnderMass(neueMasse)];
+		ziel->addAnzahlTeilchen(anzahlFragmente);
+	}
+
+}
+
+double PlanetSystem::findGelichgewicht() {
+
+}
 
 /*
 leert alle Bins im System

@@ -131,7 +131,8 @@ vector<double> createLogSpace(double min, double max, int schritte, double basis
 	 double gitterMax = 0;
 	 double schritte = 0;
 	 sMin = 0;
-	 readValuesFromFile(config_filename, sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
+
+	readValuesFromFile(config_filename, sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
 	
 
 	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte);
@@ -151,6 +152,7 @@ Main funktion zum code ausfuehren
 */
 int main(int argc, char* argv[])
 {
+
 	//initialisieren
 	INIT();
 
