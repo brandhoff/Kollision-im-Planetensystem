@@ -162,18 +162,18 @@ int main(int argc, char* argv[])
 
 	//ruft die gewuenschte verteilung im system auf
 	main_system->potenzGesetztVerteilung(radiusToMass(sMin, dichte), radiusToMass(sMax, dichte), gesMasse, dichte);
-	//main_system->calcALLKollisionsrate();
+	main_system->calcALLKollisionsrate();
 	cout << "fertig mit kollisionsraten"<<endl;
-	//main_system->calcALLLebensdauer();
+	main_system->calcALLLebensdauer();
 	cout << "fertig mit Lebensdauern" << endl;
 
-	//main_system->calcALLGewinnTerme();
+	main_system->calcALLGewinnTerme();
 	cout << "fertig mit gewinn" << endl;
 
-	//main_system->zeitEntwicklung(5, 0.001);
+	main_system->zeitEntwicklung(5, 0.001);
 	cout << "fertig Zeitentwicklung" << endl;
 
-	main_system->calcALLzerstKollision();
+	//main_system->calcALLzerstKollision();
 	cout << "fertig zerstoerung" << endl;
 
 	
