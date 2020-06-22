@@ -8,6 +8,7 @@ class PlanetSystem
 		std::vector<Bin*> bin_list;
 		std::vector<double> kollisionsRaten;
 		std::vector<double> wachstumBins;
+		std::vector<double> LebensdauerBin;
 
 
 		double relGeschwindigkeit;
@@ -41,6 +42,7 @@ class PlanetSystem
 
 		void calcALLGewinnTerme();
 		void calcALLKollisionsrate();
+		void calcALLLebensdauer();
 
 		double findGelichgewicht();
 

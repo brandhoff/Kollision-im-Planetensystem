@@ -43,6 +43,9 @@
     <Text Include="anfagswerte.txt">
       <Filter>Ressourcendateien</Filter>
     </Text>
+    <Text Include="smallSystem.txt">
+      <Filter>Ressourcendateien</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

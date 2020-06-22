@@ -24,6 +24,9 @@ double volumen;
 gibt den absolut pfad zur config datei, in der die startwerte gespeichert sind an.
 */
 const string config_filename = "anfagswerte.txt";
+
+const string smallSystemFilename = "smallSystem.txt";
+
 PlanetSystem* main_system;
 
 
@@ -132,14 +135,14 @@ vector<double> createLogSpace(double min, double max, int schritte, double basis
 	 double schritte = 0;
 	 sMin = 0;
 
-	readValuesFromFile(config_filename, sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
+	readValuesFromFile(smallSystemFilename, sMin, sMax, dichte, q, gesMasse, relGeschwindigkeit, volumen, gitterMax, schritte);
 	
 
 	 vector<double> gitter = createLogSpace(sMin, gitterMax, schritte);
 	 vector<Bin*> bins;
 	 for (auto &x : gitter) {
 		
-		 Bin* bin =  new Bin(radiusToMass(x, dichte), 0); // in Bin wird der massenWert gespeichert dem später Teilchen zugeordnet werden
+		 Bin* bin =  new Bin(radiusToMass(x, dichte), 0);
 		 bins.push_back(bin);
 	 }
 
@@ -155,18 +158,20 @@ int main(int argc, char* argv[])
 
 	//initialisieren
 	INIT();
+	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 
 	//ruft die gewuenschte verteilung im system auf
 	main_system->potenzGesetztVerteilung(radiusToMass(sMin, dichte), radiusToMass(sMax, dichte), gesMasse, dichte);
 	main_system->calcALLKollisionsrate();
 	cout << "fertig mit kollisionsraten"<<endl;
+	main_system->calcALLLebensdauer();
+	cout << "fertig mit Lebensdauern" << endl;
 
 	main_system->calcALLGewinnTerme();
 	cout << "fertig mit gewinn" << endl;
 
-	main_system->zeitEntwicklung(1, 2);
+	main_system->zeitEntwicklung(1, 10);
 
-	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 	
 
 	

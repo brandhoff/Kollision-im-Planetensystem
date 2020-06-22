@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="anfagswerte.txt" />
+    <Text Include="smallSystem.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

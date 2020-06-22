@@ -10,6 +10,7 @@
 std::ofstream fileKollisionsLebensdauer("Lebensdauer.txt");
 std::ofstream fileKollisionsrate("Kollisionsrate.txt");
 std::ofstream fileMassenverteilung("Massenverteilung.txt");
+std::ofstream fileZeitEntwicklung("Zeitentwicklung.txt");
 
 PlanetSystem::PlanetSystem(){
 	this->relGeschwindigkeit = 0;
@@ -59,7 +60,14 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesM
 	while (true) { // restMasse > 0.00001
 		Bin* x = bin_list[index];
 		Bin* unter = bin_list[index - 1];
-		double anzahl = scalingFactor(start, end, gesMass)*(pow(x->massenWert, -5.0 / 6.0 )+ pow(unter->massenWert, (1.0 / 6.0)));
+		double oberMass;
+		if (index + 1 < bin_list.size()) {
+			oberMass = bin_list[index + 1]->massenWert;
+		}
+		else {
+			oberMass = bin_list[index]->massenWert+unter->massenWert;
+		}
+		double anzahl = scalingFactor(start, end, gesMass)*(pow((oberMass-x->massenWert)-(x->massenWert-unter->massenWert), -5.0 / 6.0 ));
 		x->addAnzahlTeilchen(anzahl);
 		//std::cout << x->massenWert << "\t" << anzahl << std::endl;
 		fileMassenverteilung << x->massenWert << "\t" << anzahl << std::endl;
@@ -90,7 +98,7 @@ Findet den naechsten bin list index unterhalb (<=) der gegebenen masse
 */
 int PlanetSystem::findNextBinIndexUnderMass(double mass) {
 	int aktuell = 0;
-	for (int i = 0; i <= bin_list.size(); i++) {
+	for (int i = 0; i < bin_list.size(); i++) {
 		if (bin_list[i]->massenWert <= mass) {
 			aktuell = i;
 		}
@@ -140,7 +148,7 @@ double PlanetSystem::calcKollisionsrate(int i) {
 Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Teilchen und derer Verteilung
 */
 double PlanetSystem::calcKollisionsLebensdauer(int i) {
-	fileKollisionsLebensdauer << calcKollisionsrate(i) / this->bin_list[i]->massenWert << std::endl;
+
 	return calcKollisionsrate(i)/this->bin_list[i]->massenWert;
 }
 
@@ -154,9 +162,15 @@ double PlanetSystem::calcGewinnTerme(double i) {
 
 			double neueMasse = bin_list[i]->massenWert + bin_list[j]->massenWert;
 			int zielBinIndex = findNextBinIndexUnderMass(neueMasse);
-			bin_list[zielBinIndex]->addAnzahlTeilchen(1);
-			wachstum += lokaleKollision(i, j) * bin_list[i]->anzahl / bin_list[j]->anzahl * (neueMasse / bin_list[zielBinIndex]->massenWert);
-			//std::cout << "gewinnterm: " << wachstum << std::endl;
+			double NeueAnzahl = neueMasse / bin_list[zielBinIndex]->massenWert;
+			//std::cout << "Massenwert des zielbins " << bin_list[zielBinIndex]->massenWert << std::endl;
+			//std::cout << "neue Masse: " << neueMasse<< std::endl;
+
+			//std::cout << "Anzahl: " << neueMasse / bin_list[zielBinIndex]->massenWert << std::endl;
+
+			bin_list[zielBinIndex]->addAnzahlTeilchen(NeueAnzahl);
+			//std::cout << "added " << neueMasse / bin_list[zielBinIndex]->massenWert << " zum Bin mit masse: " << bin_list[zielBinIndex]->massenWert << std::endl;
+			wachstum += lokaleKollision(j, k) * (bin_list[j]->massenWert / bin_list[k]->massenWert) * NeueAnzahl;
 		}
 	}
 	return wachstum;
@@ -168,10 +182,24 @@ double PlanetSystem::calcGewinnTerme(double i) {
 
 void PlanetSystem::calcALLGewinnTerme() {
 	for (int i = 0; i < bin_list.size(); i++) {
-		this->wachstumBins.push_back(calcGewinnTerme(i));
+		double wachstum = calcGewinnTerme(i);
+		std::cout <<"wachstum:" << wachstum << std::endl;
+		this->wachstumBins.push_back(wachstum);
 			
 	}
 }
+
+void PlanetSystem::calcALLLebensdauer() {
+	for (int i = 0; i < bin_list.size(); i++) {
+
+		double lebensDauer = calcKollisionsLebensdauer(i);
+		fileKollisionsLebensdauer << lebensDauer;
+
+		this->LebensdauerBin.push_back(lebensDauer);
+
+	}
+}
+
 void PlanetSystem::calcALLKollisionsrate() {
 	double kollisionsrate;
 	for (int i = 0; i < bin_list.size(); i++) {
@@ -184,19 +212,25 @@ void PlanetSystem::calcALLKollisionsrate() {
 
 
 
-void PlanetSystem::zeitEntwicklung(double weite, double ZeitSchritt) {
+void PlanetSystem::zeitEntwicklung(double Weite, double ZeitSchritt) {
 	double aenderung = 0.0;
 	
-	weite = weite * 365.25*86400;
+	Weite = Weite * 365.25*86400;
 	int vergangene_zeit = 0;
-	schritt = schritt * 365.25 * 86400;
-	while (time > 0) {
+	ZeitSchritt = ZeitSchritt * 365.25 * 86400;
+	while (Weite > 0) {
 
 		for (int i = 0; i < this->bin_list.size(); i++) {
-			aenderung += (this->kollisionsRaten[i] - this->wachstumBins[i]) * schritt;
+			std::cout << "Kollisions rate bei "<< i << ":" << this->kollisionsRaten[i] << std::endl;
+			std::cout << "Wachstum bei " << i << ":" << this->wachstumBins[i] << std::endl;
+
+
+
+			aenderung += (this->kollisionsRaten[i] - this->wachstumBins[i]) * ZeitSchritt;
 		}
 
-		
+		fileZeitEntwicklung << vergangene_zeit << "\t" << aenderung << std::endl;
+
 		vergangene_zeit += ZeitSchritt;
 		Weite -= ZeitSchritt;
 		vergangene_zeit = vergangene_zeit / 365.25 * 86400;
@@ -208,7 +242,10 @@ void PlanetSystem::zerstKollision(int i, int j, int anzahlFragmente){
 	double Qcrit = 10E4;
 	double masse_i = bin_list[i]->massenWert;
 	double masse_j = bin_list[j]->massenWert;
-	if (this->relGeschwindigkeit ^ 2 * 1.0 / 2.0 * masse_i * masse_j / (masse_i + masse_j) > Qcrit) {
+
+	double v = this->relGeschwindigkeit;
+
+	if (v * v * 1.0 / 2.0 * masse_i * masse_j / (masse_i + masse_j) > Qcrit) {
 		double neueMasse = (masse_i + masse_j) / anzahlFragmente;
 		Bin* ziel = bin_list[findNextBinIndexUnderMass(neueMasse)];
 		ziel->addAnzahlTeilchen(anzahlFragmente);
@@ -217,7 +254,7 @@ void PlanetSystem::zerstKollision(int i, int j, int anzahlFragmente){
 }
 
 double PlanetSystem::findGelichgewicht() {
-
+	return 1.0;
 }
 
 /*
