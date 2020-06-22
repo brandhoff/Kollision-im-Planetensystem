@@ -43,6 +43,7 @@ class PlanetSystem
 		void calcALLGewinnTerme();
 		void calcALLKollisionsrate();
 		void calcALLLebensdauer();
+		void calcALLzerstKollision();
 
 		double findGelichgewicht();
 

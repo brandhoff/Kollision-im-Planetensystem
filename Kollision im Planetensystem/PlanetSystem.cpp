@@ -11,6 +11,7 @@ std::ofstream fileKollisionsLebensdauer("Lebensdauer.txt");
 std::ofstream fileKollisionsrate("Kollisionsrate.txt");
 std::ofstream fileMassenverteilung("Massenverteilung.txt");
 std::ofstream fileZeitEntwicklung("Zeitentwicklung.txt");
+std::ofstream fileFragmenteVerteilung("Fragmente.txt");
 
 PlanetSystem::PlanetSystem(){
 	this->relGeschwindigkeit = 0;
@@ -153,7 +154,7 @@ double PlanetSystem::calcKollisionsLebensdauer(int i) {
 }
 
 /*
-ideale kollision
+Berechnet alle Wachstumstherme
 */
 double PlanetSystem::calcGewinnTerme(double i) {
 	double wachstum = 0.0;
@@ -183,7 +184,6 @@ double PlanetSystem::calcGewinnTerme(double i) {
 void PlanetSystem::calcALLGewinnTerme() {
 	for (int i = 0; i < bin_list.size(); i++) {
 		double wachstum = calcGewinnTerme(i);
-		std::cout <<"wachstum:" << wachstum << std::endl;
 		this->wachstumBins.push_back(wachstum);
 			
 	}
@@ -221,15 +221,10 @@ void PlanetSystem::zeitEntwicklung(double Weite, double ZeitSchritt) {
 	while (Weite > 0) {
 
 		for (int i = 0; i < this->bin_list.size(); i++) {
-			std::cout << "Kollisions rate bei "<< i << ":" << this->kollisionsRaten[i] << std::endl;
-			std::cout << "Wachstum bei " << i << ":" << this->wachstumBins[i] << std::endl;
-
-
-
 			aenderung += (this->kollisionsRaten[i] - this->wachstumBins[i]) * ZeitSchritt;
 		}
 
-		fileZeitEntwicklung << vergangene_zeit << "\t" << aenderung << std::endl;
+		fileZeitEntwicklung << Weite << "\t" << aenderung << std::endl;
 
 		vergangene_zeit += ZeitSchritt;
 		Weite -= ZeitSchritt;
@@ -239,7 +234,7 @@ void PlanetSystem::zeitEntwicklung(double Weite, double ZeitSchritt) {
 
 void PlanetSystem::zerstKollision(int i, int j, int anzahlFragmente){
 
-	double Qcrit = 10E4;
+	double Qcrit = this->q;
 	double masse_i = bin_list[i]->massenWert;
 	double masse_j = bin_list[j]->massenWert;
 
@@ -249,9 +244,21 @@ void PlanetSystem::zerstKollision(int i, int j, int anzahlFragmente){
 		double neueMasse = (masse_i + masse_j) / anzahlFragmente;
 		Bin* ziel = bin_list[findNextBinIndexUnderMass(neueMasse)];
 		ziel->addAnzahlTeilchen(anzahlFragmente);
+		fileFragmenteVerteilung << ziel->massenWert << "\t" << anzahlFragmente << std::endl;
+
+
 	}
 
 }
+
+void PlanetSystem:: calcALLzerstKollision() {
+	for (int i = 0; i < bin_list.size(); i++) {
+		for (int k = 0; k < bin_list.size(); k++) {
+			zerstKollision(i, k, 10);
+		}
+	}
+}
+
 
 double PlanetSystem::findGelichgewicht() {
 	return 1.0;
