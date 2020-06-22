@@ -49,5 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="..\..\..\..\..\Uni\F-Praktikum\CP_KiP_25.05\Plot.py">
+      <Filter>Ressourcendateien</Filter>
+    </None>
   </ItemGroup>
 </Project>
