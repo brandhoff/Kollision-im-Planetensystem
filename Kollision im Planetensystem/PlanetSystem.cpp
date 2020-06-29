@@ -7,12 +7,13 @@
 #include <cmath>
 //DIESE KLASSE WIRD GENUTZT UM MEHRERE SYSTEM GLEICHZEITIG ZU MODDELIEREN UND ZU KoNFIGURIEREN
 
-std::ofstream fileKollisionsLebensdauer("Lebensdauer.txt");
-std::ofstream fileKollisionsrate("Kollisionsrate.txt");
-std::ofstream fileMassenverteilungInitial("MassenverteilungInitial.txt");
-std::ofstream fileMassenverteilungFinal("MassenverteilungFinal.txt");
-std::ofstream fileZeitEntwicklung("Zeitentwicklung.txt");
-std::ofstream fileFragmenteVerteilung("Fragmente.txt");
+
+std::ofstream fileKollisionsLebensdauer("Lebensdauer_singular.txt");
+std::ofstream fileKollisionsrate("Kollisionsrate_singular.txt");
+std::ofstream fileMassenverteilung("Massenverteilung_singular.txt");
+std::ofstream fileZeitEntwicklung("Zeitentwicklung_singular.txt");
+std::ofstream fileFragmenteVerteilung("Fragmente_singular.txt");
+
 
 PlanetSystem::PlanetSystem(){
 	this->relGeschwindigkeit = 0;
