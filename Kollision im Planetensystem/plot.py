@@ -22,20 +22,26 @@ mpl.rcParams['text.usetex'] = True
 data = pd.read_csv("C:/Users/Bolzj/Documents/Visual Studio 2019/Workspace/CP_KiP/Kollision-im-Planetensystem/Kollision im Planetensystem/Massenverteilung.txt", 
                    sep="\t", header=0, names=['Masse das Bins', 'Anzahl der Teilchen'])
 data_val = data.values
-plt.plot(data_val[:,0], data_val[:,1])
+
+plt.plot(data_val[:98,0], data_val[:98,1], label='Massenverteilung initial')
+plt.plot(data_val[98:,0], data_val[98:,1], label='Massenverteilung final')
 plt.title('Massenverteilung')
 plt.xlabel('Masse des Bins in kg')
 plt.ylabel('Teilchenanzahl')
+plt.legend()
 plt.xscale('log')
 plt.yscale('log')
 plt.show()
 
-print(sum(data_val[:,0] * data_val[:,1]))
+
+
+
+
 
 
 # Kollisionsrate
 data = pd.read_csv("C:/Users/Bolzj/Documents/Visual Studio 2019/Workspace/CP_KiP/Kollision-im-Planetensystem/Kollision im Planetensystem/Kollisionsrate.txt", 
-                   sep="\t", header=0, names=['Masse das Bins', 'Kollisionsrate'])
+                    sep="\t", header=0, names=['Masse das Bins', 'Kollisionsrate'])
 data_val = data.values
 plt.plot(data_val[:,0], data_val[:,1])
 plt.title('Kollisionsrate')

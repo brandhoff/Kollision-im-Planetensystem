@@ -7,11 +7,13 @@
 #include <cmath>
 //DIESE KLASSE WIRD GENUTZT UM MEHRERE SYSTEM GLEICHZEITIG ZU MODDELIEREN UND ZU KoNFIGURIEREN
 
+
 std::ofstream fileKollisionsLebensdauer("Lebensdauer_singular.txt");
 std::ofstream fileKollisionsrate("Kollisionsrate_singular.txt");
 std::ofstream fileMassenverteilung("Massenverteilung_singular.txt");
 std::ofstream fileZeitEntwicklung("Zeitentwicklung_singular.txt");
 std::ofstream fileFragmenteVerteilung("Fragmente_singular.txt");
+
 
 PlanetSystem::PlanetSystem(){
 	this->relGeschwindigkeit = 0;
@@ -71,6 +73,7 @@ void PlanetSystem::singularVerteilung(double gesMass, double start, double end) 
 		double teilchen = masseProBin / bin_list[i]->massenWert;
 		bin_list[i]->addAnzahlTeilchen(teilchen);
 		std::cout << "Added " << teilchen << " To " << bin_list[i]->massenWert << std::endl;
+		fileMassenverteilungInitial << bin_list[i]->massenWert << "\t" << teilchen << std::endl;
 	}
 
 }
@@ -91,7 +94,7 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesM
 		double anzahl = scalingFactor(start, end, gesMass)*(pow((oberMass-x->massenWert)-(x->massenWert-unter->massenWert), -5.0 / 6.0 ));
 		x->addAnzahlTeilchen(anzahl);
 		//std::cout << x->massenWert << "\t" << anzahl << std::endl;
-		fileMassenverteilung << x->massenWert << "\t" << anzahl << std::endl;
+		fileMassenverteilungInitial << x->massenWert << "\t" << anzahl << std::endl;
 		restMasse -= x->massenWert * anzahl;
 		
 		if (index > 1) {

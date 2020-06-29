@@ -162,7 +162,7 @@ int main(int argc, char* argv[])
 
 	//initialisieren
 	INIT();
-	/*cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
+	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 
 	//ruft die gewuenschte verteilung im system auf
 	main_system->potenzGesetztVerteilung(radiusToMass(sMin, dichte), radiusToMass(sMax, dichte), gesMasse, dichte);
@@ -179,7 +179,7 @@ int main(int argc, char* argv[])
 
 	//main_system->calcALLzerstKollision();
 	cout << "fertig zerstoerung" << endl;
-	*/
+	
 	main_system->singularVerteilung(gesMasse, radiusToMass(sMin, dichte), radiusToMass(sMax, dichte));
 
 	for (auto bin : main_system->bin_list) {

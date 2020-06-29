@@ -2,6 +2,7 @@
 #include "Teilchen.h"
 #include <vector>
 #include "Bin.h"
+#include <fstream>
 class PlanetSystem
 {
 	public:
