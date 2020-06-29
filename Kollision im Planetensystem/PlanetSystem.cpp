@@ -9,7 +9,8 @@
 
 std::ofstream fileKollisionsLebensdauer("Lebensdauer.txt");
 std::ofstream fileKollisionsrate("Kollisionsrate.txt");
-std::ofstream fileMassenverteilung("Massenverteilung.txt");
+std::ofstream fileMassenverteilungInitial("MassenverteilungInitial.txt");
+std::ofstream fileMassenverteilungFinal("MassenverteilungFinal.txt");
 std::ofstream fileZeitEntwicklung("Zeitentwicklung.txt");
 std::ofstream fileFragmenteVerteilung("Fragmente.txt");
 
@@ -71,6 +72,7 @@ void PlanetSystem::singularVerteilung(double gesMass, double start, double end) 
 		double teilchen = masseProBin / bin_list[i]->massenWert;
 		bin_list[i]->addAnzahlTeilchen(teilchen);
 		std::cout << "Added " << teilchen << " To " << bin_list[i]->massenWert << std::endl;
+		fileMassenverteilungInitial << bin_list[i]->massenWert << "\t" << teilchen << std::endl;
 	}
 
 }
@@ -91,7 +93,7 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesM
 		double anzahl = scalingFactor(start, end, gesMass)*(pow((oberMass-x->massenWert)-(x->massenWert-unter->massenWert), -5.0 / 6.0 ));
 		x->addAnzahlTeilchen(anzahl);
 		//std::cout << x->massenWert << "\t" << anzahl << std::endl;
-		fileMassenverteilung << x->massenWert << "\t" << anzahl << std::endl;
+		fileMassenverteilungInitial << x->massenWert << "\t" << anzahl << std::endl;
 		restMasse -= x->massenWert * anzahl;
 		
 		if (index > 1) {
