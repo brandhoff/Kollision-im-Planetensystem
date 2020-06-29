@@ -177,7 +177,20 @@ int main(int argc, char* argv[])
 	cout << "fertig zerstoerung" << endl;
 	*/
 	main_system->singularVerteilung(gesMasse, radiusToMass(sMin, dichte), radiusToMass(sMax, dichte));
-	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
-	
+
+	for (auto bin : main_system->bin_list) {
+		cout << "vor entwicklung Bin masse " << bin->anzahl * bin->massenWert << endl;
+
+	}
+	main_system->calcALLKollisionsrate();
+	main_system->calcALLLebensdauer();
+	main_system->calcALLGewinnTerme();
+	main_system->zeitEntwicklung(500000);
+
+	for (auto bin : main_system->bin_list) {
+		cout << "Bin masse " << bin->anzahl * bin->massenWert << endl;
+
+	}
+
 	return 0;
 }
