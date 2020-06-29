@@ -19,12 +19,16 @@ mpl.rcParams['text.usetex'] = True
 # dataFrag.plot(x='masse', y='zahl')
 
 # Massenverteilung
-data = pd.read_csv("C:/Users/Bolzj/Documents/Visual Studio 2019/Workspace/CP_KiP/Kollision-im-Planetensystem/Kollision im Planetensystem/Massenverteilung.txt", 
-                   sep="\t", header=0, names=['Masse das Bins', 'Anzahl der Teilchen'])
-data_val = data.values
+dataInitial = pd.read_csv("C:/Users/Bolzj/Documents/Visual Studio 2019/Workspace/CP_KiP/Kollision-im-Planetensystem/Kollision im Planetensystem/Massenverteilung_singular.txt", 
+                   sep="\t", header=0, names=['Masse das Bins', 'Anzahl der Teilchen']).values
+data500k = pd.read_csv("C:/Users/Bolzj/Documents/Visual Studio 2019/Workspace/CP_KiP/Kollision-im-Planetensystem/Kollision im Planetensystem/nach500kEntwicklung.txt", 
+                   sep="\t", header=0, names=['Masse das Bins', 'Anzahl der Teilchen']).values
+data1mio = pd.read_csv("C:/Users/Bolzj/Documents/Visual Studio 2019/Workspace/CP_KiP/Kollision-im-Planetensystem/Kollision im Planetensystem/nach1mioEntwicklung.txt", 
+                   sep="\t", header=0, names=['Masse das Bins', 'Anzahl der Teilchen']).values
 
-plt.plot(data_val[:98,0], data_val[:98,1], label='Massenverteilung initial')
-plt.plot(data_val[98:,0], data_val[98:,1], label='Massenverteilung final')
+plt.plot(dataInitial[:,0], dataInitial[:,1], label='Massenverteilung initial')
+plt.plot(data500k[:,0], data500k[:,1], label='Massenverteilung 500k')
+plt.plot(data1mio[:,0], data1mio[:,1], label='Massenverteilung 1mio')
 plt.title('Massenverteilung')
 plt.xlabel('Masse des Bins in kg')
 plt.ylabel('Teilchenanzahl')

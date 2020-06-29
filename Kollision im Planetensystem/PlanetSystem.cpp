@@ -40,7 +40,7 @@ gets the total mass of the system.
 double PlanetSystem::getTotalMass() {
 	double totalMass = 0.0;
 	for (auto &x : this->bin_list) {
-		double werte = x->massenWert;
+		double werte = x->massenWert * x->anzahl;
 		totalMass += werte;	// Aufsummierung der Gesamtmassen der einzelnen Bins
 
 	}
@@ -73,7 +73,7 @@ void PlanetSystem::singularVerteilung(double gesMass, double start, double end) 
 		double teilchen = masseProBin / bin_list[i]->massenWert;
 		bin_list[i]->addAnzahlTeilchen(teilchen);
 		std::cout << "Added " << teilchen << " To " << bin_list[i]->massenWert << std::endl;
-		fileMassenverteilungInitial << bin_list[i]->massenWert << "\t" << teilchen << std::endl;
+		//fileMassenverteilungInitial << bin_list[i]->massenWert << "\t" << teilchen << std::endl;
 	}
 
 }
@@ -94,7 +94,7 @@ void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesM
 		double anzahl = scalingFactor(start, end, gesMass)*(pow((oberMass-x->massenWert)-(x->massenWert-unter->massenWert), -5.0 / 6.0 ));
 		x->addAnzahlTeilchen(anzahl);
 		//std::cout << x->massenWert << "\t" << anzahl << std::endl;
-		fileMassenverteilungInitial << x->massenWert << "\t" << anzahl << std::endl;
+		//fileMassenverteilungInitial << x->massenWert << "\t" << anzahl << std::endl;
 		restMasse -= x->massenWert * anzahl;
 		
 		if (index > 1) {
@@ -171,12 +171,12 @@ double PlanetSystem::calcKollisionsLebensdauer(int i) {
 /*
 Berechnet alle Wachstumstherme
 */
-double PlanetSystem::calcGewinnTerme(double i) {
+double PlanetSystem::calcGewinnTerme() {
 	double wachstum = 0.0;
 	for (int j = 0; j < this->bin_list.size(); j++) {
 		for (int k = 0; k < this->bin_list.size(); k++) {
 
-			double neueMasse = bin_list[i]->massenWert + bin_list[j]->massenWert;
+			double neueMasse = bin_list[k]->massenWert + bin_list[j]->massenWert;
 			int zielBinIndex = findNextBinIndexUnderMass(neueMasse);
 			double NeueAnzahl = neueMasse / bin_list[zielBinIndex]->massenWert;
 			//std::cout << "Massenwert des zielbins " << bin_list[zielBinIndex]->massenWert << std::endl;
@@ -184,7 +184,6 @@ double PlanetSystem::calcGewinnTerme(double i) {
 
 			//std::cout << "Anzahl: " << neueMasse / bin_list[zielBinIndex]->massenWert << std::endl;
 
-			bin_list[zielBinIndex]->addAnzahlTeilchen(NeueAnzahl);
 			//std::cout << "added " << neueMasse / bin_list[zielBinIndex]->massenWert << " zum Bin mit masse: " << bin_list[zielBinIndex]->massenWert << std::endl;
 			wachstum += lokaleKollision(j, k) * (bin_list[j]->massenWert / bin_list[k]->massenWert) * NeueAnzahl;
 		}

@@ -37,7 +37,7 @@ class PlanetSystem
 		double getTotalMass();
 		void zeitEntwicklung(double weite);
 		double lokaleKollision(int i, int j);
-		double calcGewinnTerme(double i);
+		double calcGewinnTerme();
 		
 		void zerstKollision(int i, int j, int anzahlFragmente);
 

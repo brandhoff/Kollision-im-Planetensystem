@@ -162,31 +162,13 @@ int main(int argc, char* argv[])
 
 	//initialisieren
 	INIT();
-	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
+//	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 
-	//ruft die gewuenschte verteilung im system auf
-	main_system->potenzGesetztVerteilung(radiusToMass(sMin, dichte), radiusToMass(sMax, dichte), gesMasse, dichte);
-	main_system->calcALLKollisionsrate();
-	cout << "fertig mit kollisionsraten"<<endl;
-	main_system->calcALLLebensdauer();
-	cout << "fertig mit Lebensdauern" << endl;
 
-	main_system->calcALLGewinnTerme();
-	cout << "fertig mit gewinn" << endl;
-
-	main_system->zeitEntwicklung(5);
-	cout << "fertig Zeitentwicklung" << endl;
-
-	//main_system->calcALLzerstKollision();
-	cout << "fertig zerstoerung" << endl;
 	
 	main_system->singularVerteilung(gesMasse, radiusToMass(sMin, dichte), radiusToMass(sMax, dichte));
-
-	for (auto bin : main_system->bin_list) {
-		cout << "vor entwicklung Bin masse " << bin->anzahl * bin->massenWert << endl;
-		filevor << bin->massenWert << "\t" << bin->anzahl * bin->massenWert << std::endl;
-
-	}
+	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
+	
 	main_system->calcALLKollisionsrate();
 	main_system->calcALLLebensdauer();
 	main_system->calcALLGewinnTerme();
@@ -197,11 +179,6 @@ int main(int argc, char* argv[])
 		filenach500k << bin->massenWert << "\t" << bin->anzahl * bin->massenWert << std::endl;
 
 	}
-	main_system->zeitEntwicklung(500000);
-	for (auto bin : main_system->bin_list) {
-		cout << "Bin masse " << bin->anzahl * bin->massenWert << endl;
-		filenach1mio << bin->massenWert << "\t" << bin->anzahl * bin->massenWert << std::endl;
-
-	}
+	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 	return 0;
 }
