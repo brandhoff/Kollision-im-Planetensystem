@@ -170,7 +170,7 @@ int main(int argc, char* argv[])
 	main_system->calcALLGewinnTerme();
 	cout << "fertig mit gewinn" << endl;
 
-	main_system->zeitEntwicklung(5, 0.001);
+	main_system->zeitEntwicklung(5);
 	cout << "fertig Zeitentwicklung" << endl;
 
 	//main_system->calcALLzerstKollision();

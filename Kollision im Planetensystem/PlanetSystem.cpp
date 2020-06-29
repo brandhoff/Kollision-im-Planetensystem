@@ -53,7 +53,23 @@ double PlanetSystem::scalingFactor(double m_min, double m_max, double gesMass) {
 	return (gesMass) / (6.0 * pow(m_max, (1.0 / 6.0))- (6.0 * pow(m_min, (1.0 / 6.0))));
 }
 
+/*
+Verteilt die Teilchen singulaer
+binNumber gibt das Bin an, welches mit Teilchen gefüllt werden soll
 
+*/
+void PlanetSystem::singularVerteilung(double gesMass, double start, double end) {
+	int end_index = findNextBinIndexUnderMass(end);
+	int start_index = findNextBinIndexUnderMass(start);
+	int anzahl_imGebiet = end - start;
+	double masseProBin = gesMass / anzahl_imGebiet;
+
+	for (int i = start; i <= end_index; i++) {
+		double teilchen = masseProBin / bin_list[i]->massenWert;
+		bin_list[i]->addAnzahlTeilchen(teilchen);
+	}
+
+}
 
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
 	double restMasse = gesMass;
@@ -111,15 +127,7 @@ int PlanetSystem::findNextBinIndexUnderMass(double mass) {
 }
 
 
-/*
-Verteilt die Teilchen singulaer
-binNumber gibt das Bin an, welches mit Teilchen gefüllt werden soll
 
-*/
-void PlanetSystem::singularVerteilung(int binNumber, double gesMass, double start, double end) {
-	double anzahl = (gesMass / (end - start)) * pow(bin_list[binNumber]->massenWert, -5.0 / 6.0); 
-	bin_list[binNumber]->addAnzahlTeilchen(anzahl);
-}
 
 /*
 berechnet L ij
@@ -212,9 +220,9 @@ void PlanetSystem::calcALLKollisionsrate() {
 
 
 
-void PlanetSystem::zeitEntwicklung(double Weite, double ZeitSchritt) {
+void PlanetSystem::zeitEntwicklung(double Weite) {
 	double aenderung = 0.0;
-	
+	double ZeitSchritt = 0.1 * Weite/this->relGeschwindigkeit;
 	Weite = Weite * 365.25*86400;
 	int vergangene_zeit = 0;
 	ZeitSchritt = ZeitSchritt * 365.25 * 86400;
@@ -232,7 +240,7 @@ void PlanetSystem::zeitEntwicklung(double Weite, double ZeitSchritt) {
 	}
 }
 
-void PlanetSystem::zerstKollision(int i, int j, int anzahlFragmente){
+void PlanetSystem::zerstKollision(int i, int j, int anzahlSkalierung){
 
 	double Qcrit = this->q;
 	double masse_i = bin_list[i]->massenWert;
@@ -241,10 +249,17 @@ void PlanetSystem::zerstKollision(int i, int j, int anzahlFragmente){
 	double v = this->relGeschwindigkeit;
 
 	if (v * v * 1.0 / 2.0 * masse_i * masse_j / (masse_i + masse_j) > Qcrit) {
-		double neueMasse = (masse_i + masse_j) / anzahlFragmente;
+		double anzahl = anzahlSkalierung * lokaleKollision(i, j);
+		double neueMasse = (masse_i + masse_j) / anzahl;
 		Bin* ziel = bin_list[findNextBinIndexUnderMass(neueMasse)];
-		ziel->addAnzahlTeilchen(anzahlFragmente);
-		fileFragmenteVerteilung << ziel->massenWert << "\t" << anzahlFragmente << std::endl;
+		if (ziel != bin_list[i] && ziel != bin_list[j]) {
+			ziel->addAnzahlTeilchen(anzahl);
+			fileFragmenteVerteilung << ziel->massenWert << "\t" << anzahl << std::endl;
+			bin_list[i]->addAnzahlTeilchen(-1);
+			bin_list[j]->addAnzahlTeilchen(-1);
+
+		}
+
 
 
 	}

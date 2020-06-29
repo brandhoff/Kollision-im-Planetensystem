@@ -30,11 +30,11 @@ class PlanetSystem
 		Bin* findNextBinUnderMass(double mass);
 		int findNextBinIndexUnderMass(double mass);
 
-		void singularVerteilung(int binNumber, double gesMass, double start, double end);
+		void singularVerteilung(double gesMass, double start, double end);
 		double calcKollisionsrate(int i);
 		double calcKollisionsLebensdauer(int i);
 		double getTotalMass();
-		void zeitEntwicklung(double schritte, double time);
+		void zeitEntwicklung(double weite);
 		double lokaleKollision(int i, int j);
 		double calcGewinnTerme(double i);
 		

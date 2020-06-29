@@ -4,6 +4,6 @@ dichte:100
 qini:-3.5
 Mges:1E10
 vrel:1
-volumen:1.497E17
+volumen:1.497E38
 gitterMax:1000
 schritte:100
