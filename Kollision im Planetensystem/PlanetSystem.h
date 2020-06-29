@@ -31,7 +31,7 @@ class PlanetSystem
 		Bin* findNextBinUnderMass(double mass);
 		int findNextBinIndexUnderMass(double mass);
 
-		void singularVerteilung(double gesMass, double start, double end);
+		void singularVerteilung(double BinMassenWert, double gesMass);
 		double calcKollisionsrate(int i);
 		double calcKollisionsLebensdauer(int i);
 		double getTotalMass();
@@ -41,7 +41,7 @@ class PlanetSystem
 		
 		void zerstKollision(int i, int j, int anzahlFragmente);
 
-		void calcALLGewinnTerme();
+
 		void calcALLKollisionsrate();
 		void calcALLLebensdauer();
 		void calcALLzerstKollision();

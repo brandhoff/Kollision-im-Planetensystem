@@ -60,7 +60,7 @@ Verteilt die Teilchen singulaer
 binNumber gibt das Bin an, welches mit Teilchen gefüllt werden soll
 
 */
-void PlanetSystem::singularVerteilung(double gesMass, double start, double end) {
+/*void PlanetSystem::singularVerteilung(double gesMass, double start, double end) {
 	int end_index = findNextBinIndexUnderMass(end);
 	int start_index = findNextBinIndexUnderMass(start);
 	double anzahl_imGebiet = end_index - start_index;
@@ -76,6 +76,11 @@ void PlanetSystem::singularVerteilung(double gesMass, double start, double end) 
 		//fileMassenverteilungInitial << bin_list[i]->massenWert << "\t" << teilchen << std::endl;
 	}
 
+}*/
+
+void PlanetSystem::singularVerteilung(double BinMassenWert, double gesMass) {
+	int index = findNextBinIndexUnderMass(BinMassenWert);
+	bin_list[index]->addAnzahlTeilchen(gesMass / BinMassenWert);
 }
 
 void PlanetSystem::potenzGesetztVerteilung(double start, double end, double gesMass, double dichte) {
@@ -193,15 +198,6 @@ double PlanetSystem::calcGewinnTerme() {
 
 
 
-
-
-void PlanetSystem::calcALLGewinnTerme() {
-	for (int i = 0; i < bin_list.size(); i++) {
-		double wachstum = calcGewinnTerme(i);
-		this->wachstumBins.push_back(wachstum);
-			
-	}
-}
 
 void PlanetSystem::calcALLLebensdauer() {
 	for (int i = 0; i < bin_list.size(); i++) {
