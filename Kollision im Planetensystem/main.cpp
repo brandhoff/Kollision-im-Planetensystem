@@ -20,6 +20,10 @@ double q;
 double sMin, sMax;
 double dichte;
 double volumen;
+std::ofstream filevor("nach500kEntwicklung.txt");
+std::ofstream filenach500k("nach500kEntwicklung.txt");
+std::ofstream filenach1mio("nach1mioEntwicklung.txt");
+
 /*
 gibt den absolut pfad zur config datei, in der die startwerte gespeichert sind an.
 */
@@ -180,6 +184,7 @@ int main(int argc, char* argv[])
 
 	for (auto bin : main_system->bin_list) {
 		cout << "vor entwicklung Bin masse " << bin->anzahl * bin->massenWert << endl;
+		filevor << bin->massenWert << "\t" << bin->anzahl * bin->massenWert << std::endl;
 
 	}
 	main_system->calcALLKollisionsrate();
@@ -189,8 +194,14 @@ int main(int argc, char* argv[])
 
 	for (auto bin : main_system->bin_list) {
 		cout << "Bin masse " << bin->anzahl * bin->massenWert << endl;
+		filenach500k << bin->massenWert << "\t" << bin->anzahl * bin->massenWert << std::endl;
 
 	}
+	main_system->zeitEntwicklung(500000);
+	for (auto bin : main_system->bin_list) {
+		cout << "Bin masse " << bin->anzahl * bin->massenWert << endl;
+		filenach1mio << bin->massenWert << "\t" << bin->anzahl * bin->massenWert << std::endl;
 
+	}
 	return 0;
 }
