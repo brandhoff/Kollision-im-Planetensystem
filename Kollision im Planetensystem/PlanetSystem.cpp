@@ -61,12 +61,16 @@ binNumber gibt das Bin an, welches mit Teilchen gefüllt werden soll
 void PlanetSystem::singularVerteilung(double gesMass, double start, double end) {
 	int end_index = findNextBinIndexUnderMass(end);
 	int start_index = findNextBinIndexUnderMass(start);
-	int anzahl_imGebiet = end - start;
+	double anzahl_imGebiet = end_index - start_index;
 	double masseProBin = gesMass / anzahl_imGebiet;
+	
+	std::cout << "anzahl im gebiet " << anzahl_imGebiet << std::endl;
+	std::cout << "masseProBin im gebiet " << masseProBin << std::endl;
 
-	for (int i = start; i <= end_index; i++) {
+	for (int i = start_index; i <= end_index; i++) {
 		double teilchen = masseProBin / bin_list[i]->massenWert;
 		bin_list[i]->addAnzahlTeilchen(teilchen);
+		std::cout << "Added " << teilchen << " To " << bin_list[i]->massenWert << std::endl;
 	}
 
 }
