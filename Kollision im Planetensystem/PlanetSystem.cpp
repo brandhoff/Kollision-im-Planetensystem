@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <algorithm> 
 //DIESE KLASSE WIRD GENUTZT UM MEHRERE SYSTEM GLEICHZEITIG ZU MODDELIEREN UND ZU KoNFIGURIEREN
 
 
@@ -246,11 +247,18 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 		//beechnung der wachstumsraten fuer diesen Zeitschritt
 		calcGewinnTerme();
 		calcKollisionsrate();
+		std::vector<double> schrittweiten;
+		
 		for (int i = 0; i < this->bin_list.size(); i++) {
 			double aenderung = (this->wachstumBins[i]- this->kollisionsRaten[i]) * ZeitSchritt;
+			
+			//Berechnung der Schrittweite
+			schrittweiten.push_back(bin_list[i]->anzahl / aenderung);
+
+			//Aenderung schreiben
 			bin_list[i]->addAnzahlTeilchen(aenderung);
 		}
-
+		ZeitSchritt = 0.1 * *std::min_element(schrittweiten.begin(), schrittweiten.end());
 		vergangene_zeit += ZeitSchritt;
 		Weite -= ZeitSchritt;
 		vergangene_zeit = vergangene_zeit / 365.25 * 86400;

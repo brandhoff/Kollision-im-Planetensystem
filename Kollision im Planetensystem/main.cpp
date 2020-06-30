@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
 	}
 	cout << "ZEITENTWICKLUNG"<< endl;
 
-	main_system->zeitEntwicklung(100);
+	main_system->zeitEntwicklung(10000000);
 
 	for (auto bin : main_system->bin_list) {
 		cout << "Bin masse " << bin->anzahl * bin->massenWert << endl;
