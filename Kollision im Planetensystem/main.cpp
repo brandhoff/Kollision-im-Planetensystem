@@ -166,19 +166,16 @@ int main(int argc, char* argv[])
 
 
 	
-	main_system->singularVerteilung(gesMasse, radiusToMass(sMin, dichte), radiusToMass(sMax, dichte));
+	main_system->singularVerteilung(gesMasse/1000, gesMasse);
 	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 	
-	main_system->calcALLKollisionsrate();
-	main_system->calcALLLebensdauer();
-	main_system->calcALLGewinnTerme();
-	main_system->zeitEntwicklung(500000);
 
 	for (auto bin : main_system->bin_list) {
 		cout << "Bin masse " << bin->anzahl * bin->massenWert << endl;
-		filenach500k << bin->massenWert << "\t" << bin->anzahl * bin->massenWert << std::endl;
-
 	}
+
+	main_system->zeitEntwicklung(100);
+
 	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 	return 0;
 }

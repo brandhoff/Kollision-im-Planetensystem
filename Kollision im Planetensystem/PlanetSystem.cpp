@@ -31,6 +31,8 @@ PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, 
 	this->bin_list = bin_list;
 	this->wachstumBins.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
 	this->kollisionsRaten.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
+	this->wachstumBins.resize(this->bin_list.size());
+	this->kollisionsRaten.resize(this->bin_list.size());
 
 }
 
@@ -223,7 +225,9 @@ void PlanetSystem::VecReset() {
 	this->kollisionsRaten.clear();
 
 	this->wachstumBins.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
+	this->wachstumBins.resize(this->bin_list.size());
 	this->kollisionsRaten.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
+	this->kollisionsRaten.resize(this->bin_list.size());
 
 
 }
