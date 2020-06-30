@@ -173,8 +173,13 @@ int main(int argc, char* argv[])
 	for (auto bin : main_system->bin_list) {
 		cout << "Bin masse " << bin->anzahl * bin->massenWert << endl;
 	}
+	cout << "ZEITENTWICKLUNG"<< endl;
 
 	main_system->zeitEntwicklung(100);
+
+	for (auto bin : main_system->bin_list) {
+		cout << "Bin masse " << bin->anzahl * bin->massenWert << endl;
+	}
 
 	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 	return 0;

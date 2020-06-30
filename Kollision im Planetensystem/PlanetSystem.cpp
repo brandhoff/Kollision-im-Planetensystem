@@ -247,7 +247,7 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 		calcGewinnTerme();
 		calcKollisionsrate();
 		for (int i = 0; i < this->bin_list.size(); i++) {
-			double aenderung = (this->kollisionsRaten[i] - this->wachstumBins[i]) * ZeitSchritt;
+			double aenderung = (this->wachstumBins[i]- this->kollisionsRaten[i]) * ZeitSchritt;
 			bin_list[i]->addAnzahlTeilchen(aenderung);
 		}
 
