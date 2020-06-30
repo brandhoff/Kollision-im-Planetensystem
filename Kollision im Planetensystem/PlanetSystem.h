@@ -32,22 +32,20 @@ class PlanetSystem
 		int findNextBinIndexUnderMass(double mass);
 
 		void singularVerteilung(double BinMassenWert, double gesMass);
-		double calcKollisionsrate(int i);
+		double calcKollisionsrate();
 		double calcKollisionsLebensdauer(int i);
 		double getTotalMass();
 		void zeitEntwicklung(double weite);
 		double lokaleKollision(int i, int j);
-		double calcGewinnTerme();
+		void calcGewinnTerme();
 		
 		void zerstKollision(int i, int j, int anzahlFragmente);
 
-
-		void calcALLKollisionsrate();
 		void calcALLLebensdauer();
 		void calcALLzerstKollision();
 
 		double findGelichgewicht();
-
+		void VecReset();
 	private:
 		void emptyAllBins();
 };

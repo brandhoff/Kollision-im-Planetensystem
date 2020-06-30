@@ -29,6 +29,9 @@ PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, 
 	this->q = q;
 	this->dichte = dichte;
 	this->bin_list = bin_list;
+	this->wachstumBins.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
+	this->kollisionsRaten.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
+
 }
 
 
@@ -153,11 +156,13 @@ double PlanetSystem::lokaleKollision(int i, int j) {
 /*
 Berechnet die Kollisionsrate fuer die momentane konfiguration an Teilchen und derer Verteilung
 */
-//TODO auf eine index lose version umsteigen
-double PlanetSystem::calcKollisionsrate(int i) {
+double PlanetSystem::calcKollisionsrate() {
 	double kollision = 0.0;
 		for (int j = 0; j < this->bin_list.size(); j++) {
-			kollision += this->bin_list[i]->anzahl * this->bin_list[j]->anzahl * lokaleKollision(i, j);
+			for (int k = 0; k < this->bin_list.size(); k++) {
+
+				kollisionsRaten[k] += this->bin_list[k]->anzahl * this->bin_list[j]->anzahl * lokaleKollision(k, j);
+			}
 		}
 	
 	
@@ -170,30 +175,32 @@ Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Te
 */
 double PlanetSystem::calcKollisionsLebensdauer(int i) {
 
-	return calcKollisionsrate(i)/this->bin_list[i]->massenWert;
+	return kollisionsRaten[i]/this->bin_list[i]->massenWert;
 }
 
 /*
 Berechnet alle Wachstumstherme
 */
-double PlanetSystem::calcGewinnTerme() {
+void PlanetSystem::calcGewinnTerme() {
 	double wachstum = 0.0;
 	for (int j = 0; j < this->bin_list.size(); j++) {
 		for (int k = 0; k < this->bin_list.size(); k++) {
 
 			double neueMasse = bin_list[k]->massenWert + bin_list[j]->massenWert;
 			int zielBinIndex = findNextBinIndexUnderMass(neueMasse);
+			//Falls ins gleiche Bin gelegt wird
+			if (zielBinIndex == k) {
+
+			}
+			else if (zielBinIndex == j) {
+
+			}
+
 			double NeueAnzahl = neueMasse / bin_list[zielBinIndex]->massenWert;
-			//std::cout << "Massenwert des zielbins " << bin_list[zielBinIndex]->massenWert << std::endl;
-			//std::cout << "neue Masse: " << neueMasse<< std::endl;
-
-			//std::cout << "Anzahl: " << neueMasse / bin_list[zielBinIndex]->massenWert << std::endl;
-
-			//std::cout << "added " << neueMasse / bin_list[zielBinIndex]->massenWert << " zum Bin mit masse: " << bin_list[zielBinIndex]->massenWert << std::endl;
-			wachstum += lokaleKollision(j, k) * (bin_list[j]->massenWert / bin_list[k]->massenWert) * NeueAnzahl;
+			//wachstum in den passenden Vector schreiben
+			this->wachstumBins[zielBinIndex] += 0.5 * lokaleKollision(j, k) * (bin_list[j]->massenWert / bin_list[k]->massenWert) * NeueAnzahl;
 		}
 	}
-	return wachstum;
 }
 
 
@@ -210,37 +217,43 @@ void PlanetSystem::calcALLLebensdauer() {
 	}
 }
 
-void PlanetSystem::calcALLKollisionsrate() {
-	double kollisionsrate;
-	for (int i = 0; i < bin_list.size(); i++) {
-		kollisionsrate = calcKollisionsrate(i);
-		this->kollisionsRaten.push_back(kollisionsrate);
-		fileKollisionsrate << bin_list[i]->massenWert << "\t" << kollisionsrate << std::endl;
-	}
+
+void PlanetSystem::VecReset() {
+	this->wachstumBins.clear();
+	this->kollisionsRaten.clear();
+
+	this->wachstumBins.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
+	this->kollisionsRaten.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
+
+
 }
 
 
 
-
 void PlanetSystem::zeitEntwicklung(double Weite) {
-	double aenderung = 0.0;
 	double ZeitSchritt = 0.1 * Weite/this->relGeschwindigkeit;
 	Weite = Weite * 365.25*86400;
 	int vergangene_zeit = 0;
 	ZeitSchritt = ZeitSchritt * 365.25 * 86400;
 	while (Weite > 0) {
+		//resetten der Vektoren kollisionsRaten und wachstumsBins
+		VecReset();
 
+		//beechnung der wachstumsraten fuer diesen Zeitschritt
+		calcGewinnTerme();
+		calcKollisionsrate();
 		for (int i = 0; i < this->bin_list.size(); i++) {
-			aenderung += (this->kollisionsRaten[i] - this->wachstumBins[i]) * ZeitSchritt;
+			double aenderung = (this->kollisionsRaten[i] - this->wachstumBins[i]) * ZeitSchritt;
+			bin_list[i]->addAnzahlTeilchen(aenderung);
 		}
-
-		fileZeitEntwicklung << Weite << "\t" << aenderung << std::endl;
 
 		vergangene_zeit += ZeitSchritt;
 		Weite -= ZeitSchritt;
 		vergangene_zeit = vergangene_zeit / 365.25 * 86400;
 	}
 }
+
+
 
 void PlanetSystem::zerstKollision(int i, int j, int anzahlSkalierung){
 
