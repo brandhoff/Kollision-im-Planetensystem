@@ -1,5 +1,5 @@
 #pragma once
-#include "Teilchen.h"
+
 #include <vector>
 #include "Bin.h"
 #include <fstream>
@@ -38,15 +38,13 @@ class PlanetSystem
 		void zeitEntwicklung(double weite);
 		double lokaleKollision(int i, int j);
 		void calcGewinnTerme();
-		
 		void zerstKollision(int i, int j, int anzahlFragmente);
 
 		void calcALLLebensdauer();
 		void calcALLzerstKollision();
-
-		double findGelichgewicht();
+				
 		void VecReset();
 	private:
-		void emptyAllBins();
+	
 };
 

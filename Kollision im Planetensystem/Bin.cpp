@@ -9,14 +9,7 @@ Bin::Bin(double massenWert, double anzahl) {
 
 
 
-/**
-addes the teilchen to the teilchen in this bin
-*/
-[[deprecated("verwendet nurnoch die anzahl der teilchen als zahl und nicht als vector aus teilchen")]]
-void Bin::addTeilchen(Teilchen *teilchen){
-	this->teilchenList.push_back(teilchen);
 
-}
 
 void Bin::addAnzahlTeilchen(double anzahl) {
 	this->anzahl += anzahl;

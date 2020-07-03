@@ -9,7 +9,6 @@
 
 #include "Bin.h"
 #include "PlanetSystem.h"
-#include "Teilchen.h"
 #define M_PI       3.14159265358979323846   // pi
 
 using namespace std;
@@ -167,7 +166,8 @@ int main(int argc, char* argv[])
 
 	
 	main_system->singularVerteilung(gesMasse/1000, gesMasse);
-	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
+	main_system->zeitEntwicklung(10);
+	/*cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 	
 
 	for (auto bin : main_system->bin_list) {
@@ -175,12 +175,12 @@ int main(int argc, char* argv[])
 	}
 	cout << "ZEITENTWICKLUNG"<< endl;
 
-	main_system->zeitEntwicklung(10000000);
+	/*main_system->zeitEntwicklung(10E100);
 
 	for (auto bin : main_system->bin_list) {
 		cout << "Bin masse " << bin->anzahl * bin->massenWert << endl;
 	}
 
-	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
+	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;*/
 	return 0;
 }

@@ -1,7 +1,6 @@
 ﻿#include "PlanetSystem.h"
 #include <vector>
 #include "Bin.h"
-#include "Teilchen.h"
 #include <iostream>
 #include <fstream>
 #include <cmath>
@@ -61,28 +60,6 @@ double PlanetSystem::scalingFactor(double m_min, double m_max, double gesMass) {
 	return (gesMass) / (6.0 * pow(m_max, (1.0 / 6.0))- (6.0 * pow(m_min, (1.0 / 6.0))));
 }
 
-/*
-Verteilt die Teilchen singulaer
-binNumber gibt das Bin an, welches mit Teilchen gefüllt werden soll
-
-*/
-/*void PlanetSystem::singularVerteilung(double gesMass, double start, double end) {
-	int end_index = findNextBinIndexUnderMass(end);
-	int start_index = findNextBinIndexUnderMass(start);
-	double anzahl_imGebiet = end_index - start_index;
-	double masseProBin = gesMass / anzahl_imGebiet;
-	
-	std::cout << "anzahl im gebiet " << anzahl_imGebiet << std::endl;
-	std::cout << "masseProBin im gebiet " << masseProBin << std::endl;
-
-	for (int i = start_index; i <= end_index; i++) {
-		double teilchen = masseProBin / bin_list[i]->massenWert;
-		bin_list[i]->addAnzahlTeilchen(teilchen);
-		std::cout << "Added " << teilchen << " To " << bin_list[i]->massenWert << std::endl;
-		//fileMassenverteilungInitial << bin_list[i]->massenWert << "\t" << teilchen << std::endl;
-	}
-
-}*/
 
 void PlanetSystem::singularVerteilung(double BinMassenWert, double gesMass) {
 	int index = findNextBinIndexUnderMass(BinMassenWert);
@@ -236,11 +213,9 @@ void PlanetSystem::VecReset() {
 
 
 void PlanetSystem::zeitEntwicklung(double Weite) {
-	double ZeitSchritt = 0.1 * Weite/this->relGeschwindigkeit;
 	Weite = Weite * 365.25*86400;
-	int vergangene_zeit = 0;
-	ZeitSchritt = ZeitSchritt * 365.25 * 86400;
 	while (Weite > 0) {
+		std::cout << "schritt mit weite " << Weite << std::endl;
 		//resetten der Vektoren kollisionsRaten und wachstumsBins
 		VecReset();
 
@@ -250,18 +225,21 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 		std::vector<double> schrittweiten;
 		
 		for (int i = 0; i < this->bin_list.size(); i++) {
-			double aenderung = (this->wachstumBins[i]- this->kollisionsRaten[i]) * ZeitSchritt;
+			double aenderung = (this->wachstumBins[i]- this->kollisionsRaten[i]) ;
 			
 			//Berechnung der Schrittweite
+			if(aenderung > 0)
 			schrittweiten.push_back(bin_list[i]->anzahl / aenderung);
 
 			//Aenderung schreiben
 			bin_list[i]->addAnzahlTeilchen(aenderung);
 		}
-		ZeitSchritt = 0.1 * *std::min_element(schrittweiten.begin(), schrittweiten.end());
-		vergangene_zeit += ZeitSchritt;
+		double min = *std::min_element(schrittweiten.begin(), schrittweiten.end());
+		double ZeitSchritt = 0.001 * min;
 		Weite -= ZeitSchritt;
-		vergangene_zeit = vergangene_zeit / 365.25 * 86400;
+		std::cout << "min " << min << std::endl;
+		std::cout << "Weite " << Weite << std::endl;
+
 	}
 }
 
@@ -301,16 +279,3 @@ void PlanetSystem:: calcALLzerstKollision() {
 	}
 }
 
-
-double PlanetSystem::findGelichgewicht() {
-	return 1.0;
-}
-
-/*
-leert alle Bins im System
-*/
-void PlanetSystem::emptyAllBins() {
-	for (auto& x : this->bin_list) {
-
-	}
-}
