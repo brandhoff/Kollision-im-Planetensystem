@@ -128,7 +128,7 @@ int PlanetSystem::findNextBinIndexUnderMass(double mass) {
 berechnet L ij
 */
 double PlanetSystem::lokaleKollision(int i, int j) {
-	return M_PI* std::pow((this->bin_list[i]->getRadius(this->dichte) + this->bin_list[j]->getRadius(this->dichte)), 2)* relGeschwindigkeit / this->volumen;
+	return M_PI* std::pow((this->bin_list[i]->getRadius(this->dichte) + this->bin_list[j]->getRadius(this->dichte)), 2)* relGeschwindigkeit / this->volumen * bin_list[j]->anzahl * bin_list[i]->anzahl;
 }
 
 
@@ -232,19 +232,19 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 	// 	ZeitSchritt = ZeitSchritt * 365.25 * 86400;
 	while (Weite > 0) {
 		//resetten der Vektoren kollisionsRaten und wachstumsBins
-		VecReset();
+		this->VecReset();
 
 		//beechnung der wachstumsraten fuer diesen Zeitschritt
-		calcGewinnTerme();
-		calcKollisionsrate();
+		this->calcGewinnTerme();
 		std::vector<double> schrittweiten;
 
 		for (int i = 0; i < this->bin_list.size(); i++) {
 			//Berechnung der Schrittweite
+			if(bin_list[i]->anzahl != 0 && this->verluste[i] > this->wachstumBins[i])
 			schrittweiten.push_back(bin_list[i]->anzahl / (this->verluste[i] - this->wachstumBins[i]));
 
 		}
-		double ZeitSchritt = 0.1 * *std::max_element(schrittweiten.begin(), schrittweiten.end());
+		double ZeitSchritt = 0.1 * *std::min_element(schrittweiten.begin(), schrittweiten.end());
 
 		for (int i = 0; i < this->bin_list.size(); i++) {
 			double aenderung = (this->wachstumBins[i] - this->verluste[i]) * ZeitSchritt;
