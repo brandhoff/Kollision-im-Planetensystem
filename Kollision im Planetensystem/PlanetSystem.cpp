@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cmath>
 #include <algorithm> 
+#include <vector>
 //DIESE KLASSE WIRD GENUTZT UM MEHRERE SYSTEM GLEICHZEITIG ZU MODDELIEREN UND ZU KoNFIGURIEREN
 
 
@@ -229,6 +230,8 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 	// 	double ZeitSchritt = 0.1 * Weite/this->relGeschwindigkeit;
 	Weite = Weite * 365.25 * 86400;
 	int vergangene_zeit = 0;
+	std::vector<std::vector<double>> zeitverlauf;
+	std::vector<double> aktuelleAnzahl;
 	// 	ZeitSchritt = ZeitSchritt * 365.25 * 86400;
 	while (Weite > 0) {
 		//resetten der Vektoren kollisionsRaten und wachstumsBins
@@ -250,12 +253,21 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 			double aenderung = (this->wachstumBins[i] - this->verluste[i]) * ZeitSchritt;
 			//Aenderung schreiben
 			bin_list[i]->addAnzahlTeilchen(aenderung);
+			aktuelleAnzahl.push_back(bin_list[i]->anzahl);
 		}
 		std::cout << " Gesamte masse des Systems: " << this->getTotalMass() << std::endl;
+		zeitverlauf.push_back(aktuelleAnzahl);
 
 		vergangene_zeit += ZeitSchritt;
 		Weite -=ZeitSchritt;
 		vergangene_zeit = vergangene_zeit / 365.25 * 86400;
+	}
+	for (int i = 0; i < zeitverlauf.size(); i++) {
+		fileZeitEntwicklung << bin_list[i]->massenWert << '\t';
+		for (int j = 0; j < zeitverlauf[i].size(); j++) {
+			fileZeitEntwicklung << zeitverlauf[i][j] << '\t';
+		}
+		fileZeitEntwicklung << std::endl;
 	}
 }
 
