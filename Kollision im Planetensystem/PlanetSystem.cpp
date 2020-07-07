@@ -241,10 +241,10 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 
 		for (int i = 0; i < this->bin_list.size(); i++) {
 			//Berechnung der Schrittweite
-			schrittweiten.push_back(bin_list[i]->anzahl / (this->wachstumBins[i] - this->verluste[i]));
+			schrittweiten.push_back(bin_list[i]->anzahl / (this->verluste[i] - this->wachstumBins[i]));
 
 		}
-		double ZeitSchritt = 0.1 * *std::min_element(schrittweiten.begin(), schrittweiten.end());
+		double ZeitSchritt = 0.1 * *std::max_element(schrittweiten.begin(), schrittweiten.end());
 
 		for (int i = 0; i < this->bin_list.size(); i++) {
 			double aenderung = (this->wachstumBins[i] - this->verluste[i]) * ZeitSchritt;
@@ -254,7 +254,7 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 		std::cout << " Gesamte masse des Systems: " << this->getTotalMass() << std::endl;
 
 		vergangene_zeit += ZeitSchritt;
-		Weite += ZeitSchritt;
+		Weite -=ZeitSchritt;
 		vergangene_zeit = vergangene_zeit / 365.25 * 86400;
 	}
 }
