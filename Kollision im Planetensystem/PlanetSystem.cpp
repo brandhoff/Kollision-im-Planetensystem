@@ -30,9 +30,9 @@ PlanetSystem::PlanetSystem(double relGeschwindigkeit, double volumen, double q, 
 	this->dichte = dichte;
 	this->bin_list = bin_list;
 	this->wachstumBins.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
-	this->kollisionsRaten.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
+	this->verluste.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
 	this->wachstumBins.resize(this->bin_list.size());
-	this->kollisionsRaten.resize(this->bin_list.size());
+	this->verluste.resize(this->bin_list.size());
 
 }
 
@@ -141,7 +141,7 @@ double PlanetSystem::calcKollisionsrate() {
 		for (int j = 0; j < this->bin_list.size(); j++) {
 			for (int k = 0; k < this->bin_list.size(); k++) {
 
-				kollisionsRaten[k] += this->bin_list[k]->anzahl * this->bin_list[j]->anzahl * lokaleKollision(k, j);
+				verluste[k] += this->bin_list[k]->anzahl * this->bin_list[j]->anzahl * lokaleKollision(k, j);
 			}
 		}
 	
@@ -155,7 +155,7 @@ Berechent die Lebensdauer einer Kollision fuer die momentane konfiguration an Te
 */
 double PlanetSystem::calcKollisionsLebensdauer(int i) {
 
-	return kollisionsRaten[i]/this->bin_list[i]->massenWert;
+	return verluste[i]/this->bin_list[i]->massenWert;
 }
 
 /*
@@ -169,16 +169,28 @@ void PlanetSystem::calcGewinnTerme() {
 			double neueMasse = bin_list[k]->massenWert + bin_list[j]->massenWert;
 			int zielBinIndex = findNextBinIndexUnderMass(neueMasse);
 			//Falls ins gleiche Bin gelegt wird
-			if (zielBinIndex == k) {
-
+			if (zielBinIndex == k && zielBinIndex == j) {
+				continue;
+			}
+			else if (zielBinIndex == k) {
+				double NeueAnzahl = bin_list[j]->massenWert / bin_list[zielBinIndex]->massenWert;
+				const double aux = 0.5 * lokaleKollision(j, k);
+				this->verluste[j] += aux;
+				this->wachstumBins[zielBinIndex] += aux * NeueAnzahl;
 			}
 			else if (zielBinIndex == j) {
-
+				double NeueAnzahl = bin_list[k]->massenWert / bin_list[zielBinIndex]->massenWert;
+				const double aux = 0.5 * lokaleKollision(j, k);
+				this->verluste[k] += aux;
+				this->wachstumBins[zielBinIndex] += aux * NeueAnzahl;
 			}
-
-			double NeueAnzahl = neueMasse / bin_list[zielBinIndex]->massenWert;
-			//wachstum in den passenden Vector schreiben
-			this->wachstumBins[zielBinIndex] += 0.5 * lokaleKollision(j, k) * (bin_list[j]->massenWert / bin_list[k]->massenWert) * NeueAnzahl;
+			else {
+				double NeueAnzahl = neueMasse / bin_list[zielBinIndex]->massenWert;
+				const double aux = 0.5 * lokaleKollision(j, k);
+				this->verluste[j] += aux;
+				this->verluste[k] += aux;
+				this->wachstumBins[zielBinIndex] += aux * NeueAnzahl;
+			}
 		}
 	}
 }
@@ -200,22 +212,25 @@ void PlanetSystem::calcALLLebensdauer() {
 
 void PlanetSystem::VecReset() {
 	this->wachstumBins.clear();
-	this->kollisionsRaten.clear();
+	this->verluste.clear();
 
 	this->wachstumBins.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
 	this->wachstumBins.resize(this->bin_list.size());
-	this->kollisionsRaten.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
-	this->kollisionsRaten.resize(this->bin_list.size());
+	this->verluste.reserve(this->bin_list.size()); // gleiche laenge sicherstellen
+	this->verluste.resize(this->bin_list.size());
 
 
 }
 
 
 
+
 void PlanetSystem::zeitEntwicklung(double Weite) {
-	Weite = Weite * 365.25*86400;
+	// 	double ZeitSchritt = 0.1 * Weite/this->relGeschwindigkeit;
+	Weite = Weite * 365.25 * 86400;
+	int vergangene_zeit = 0;
+	// 	ZeitSchritt = ZeitSchritt * 365.25 * 86400;
 	while (Weite > 0) {
-		std::cout << "schritt mit weite " << Weite << std::endl;
 		//resetten der Vektoren kollisionsRaten und wachstumsBins
 		VecReset();
 
@@ -223,23 +238,22 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 		calcGewinnTerme();
 		calcKollisionsrate();
 		std::vector<double> schrittweiten;
-		
-		for (int i = 0; i < this->bin_list.size(); i++) {
-			double aenderung = (this->wachstumBins[i]- this->kollisionsRaten[i]) ;
-			
-			//Berechnung der Schrittweite
-			if(aenderung > 0)
-			schrittweiten.push_back(bin_list[i]->anzahl / aenderung);
 
+		for (int i = 0; i < this->bin_list.size(); i++) {
+			//Berechnung der Schrittweite
+			schrittweiten.push_back(bin_list[i]->anzahl / (this->wachstumBins[i] - this->verluste[i]));
+
+		}
+		double ZeitSchritt = 0.1 * *std::min_element(schrittweiten.begin(), schrittweiten.end());
+
+		for (int i = 0; i < this->bin_list.size(); i++) {
+			double aenderung = (this->wachstumBins[i] - this->verluste[i]) * ZeitSchritt;
 			//Aenderung schreiben
 			bin_list[i]->addAnzahlTeilchen(aenderung);
 		}
-		double min = *std::min_element(schrittweiten.begin(), schrittweiten.end());
-		double ZeitSchritt = 0.001 * min;
+		vergangene_zeit += ZeitSchritt;
 		Weite -= ZeitSchritt;
-		std::cout << "min " << min << std::endl;
-		std::cout << "Weite " << Weite << std::endl;
-
+		vergangene_zeit = vergangene_zeit / 365.25 * 86400;
 	}
 }
 

@@ -7,7 +7,7 @@ class PlanetSystem
 {
 	public:
 		std::vector<Bin*> bin_list;
-		std::vector<double> kollisionsRaten;
+		std::vector<double> verluste;
 		std::vector<double> wachstumBins;
 		std::vector<double> LebensdauerBin;
 

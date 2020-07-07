@@ -166,7 +166,9 @@ int main(int argc, char* argv[])
 
 	
 	main_system->singularVerteilung(gesMasse/1000, gesMasse);
-	main_system->zeitEntwicklung(10);
+	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
+	main_system->zeitEntwicklung(1);
+	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 	/*cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 	
 
