@@ -251,8 +251,10 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 			//Aenderung schreiben
 			bin_list[i]->addAnzahlTeilchen(aenderung);
 		}
+		std::cout << " Gesamte masse des Systems: " << this->getTotalMass() << std::endl;
+
 		vergangene_zeit += ZeitSchritt;
-		Weite -= ZeitSchritt;
+		Weite += ZeitSchritt;
 		vergangene_zeit = vergangene_zeit / 365.25 * 86400;
 	}
 }
