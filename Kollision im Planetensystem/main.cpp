@@ -145,7 +145,7 @@ vector<double> createLogSpace(double min, double max, int schritte, double basis
 	 vector<Bin*> bins;
 	 for (auto &x : gitter) {
 		
-		 Bin* bin =  new Bin(radiusToMass(x, dichte), 0);
+		 Bin* bin =  new Bin(radiusToMass(x, dichte), 0.0);
 		 bins.push_back(bin);
 	 }
 
