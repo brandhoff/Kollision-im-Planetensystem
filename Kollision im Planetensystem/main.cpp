@@ -30,6 +30,9 @@ const string config_filename = "anfagswerte.txt";
 
 const string smallSystemFilename = "smallSystem.txt";
 
+const string Aufgabe5_Filename = "Aufgabe5_system.txt";
+
+
 PlanetSystem* main_system;
 
 
@@ -165,10 +168,11 @@ int main(int argc, char* argv[])
 
 
 	
-	main_system->singularVerteilung(100000, gesMasse);
-	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
-	main_system->zeitEntwicklung(100000000);
-	cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
+	main_system->singularVerteilung(50000, gesMasse);
+	main_system->DestrZeitEntwicklung(2.5E7);
+	//main_system->zeitEntwicklung(5E3);
+
+
 	/*cout << " Gesamte masse des Systems: " << main_system->getTotalMass() << endl;
 	
 

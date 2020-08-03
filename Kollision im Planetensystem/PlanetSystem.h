@@ -38,10 +38,11 @@ class PlanetSystem
 		void zeitEntwicklung(double weite);
 		double lokaleKollision(int i, int j);
 		void calcGewinnTerme();
-		void zerstKollision(int i, int j, int anzahlFragmente);
+		void zerstKollision();
+		void DestrZeitEntwicklung(double weite);
+#
 
 		void calcALLLebensdauer();
-		void calcALLzerstKollision();
 				
 		void VecReset();
 	private:
