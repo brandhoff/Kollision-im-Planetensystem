@@ -169,6 +169,7 @@ void PlanetSystem::calcGewinnTerme() {
 		for (int k = 0; k < this->bin_list.size(); k++) {
 
 			double neueMasse = bin_list[k]->massenWert + bin_list[j]->massenWert;
+			
 			int zielBinIndex = findNextBinIndexUnderMass(neueMasse);
 			//Falls ins gleiche Bin gelegt wird
 			if (zielBinIndex == k && zielBinIndex == j) {
@@ -276,8 +277,8 @@ void PlanetSystem::zeitEntwicklung(double Weite) {
 			//UNTERSTES BIN KOSNT HALTEN HIER 
 			//------------------------------------------------------------ 
 
-			//if(i == 0)
-			//bin_list[0]->addAnzahlTeilchen(aenderung * -1);
+			if(i == 0)
+			bin_list[0]->addAnzahlTeilchen(aenderung * -1);
 			aktuelleAnzahl.push_back(bin_list[i]->anzahl * bin_list[i]->massenWert);
 			
 		}
@@ -384,7 +385,7 @@ void PlanetSystem::DestrZeitEntwicklung(double Weite) {
 		s << "Zeitschritt_" << i;
 		header.push_back(s.str());
 	}
-
+	//schreiben der header
 	for (auto head : header) {
 		fileZeitEntwicklung << head << '\t';
 	}
@@ -414,7 +415,7 @@ void PlanetSystem::zerstKollision() {
 	double v = this->relGeschwindigkeit;
 	//srand(87902137634890);
 	//double anzahl = fRand(8.0, 20.0);
-	double anzahl = 28;
+	double anzahl = 4;
 
 	for (int j = 0; j < this->bin_list.size(); j++) {
 		for (int k = 0; k < this->bin_list.size(); k++) {
@@ -426,7 +427,15 @@ void PlanetSystem::zerstKollision() {
 				neueMasse /= anzahl;
 
 				int zielBinIndex = findNextBinIndexUnderMass(neueMasse);
+
+				//Teilchen herausfallen lassen
+				if (neueMasse < bin_list[0]->massenWert) {
+					const double aux = 0.5 * lokaleKollision(j, k);
+					this->verluste[j] += aux;
+					continue;
+				}
 				//Falls ins gleiche Bin gelegt wird
+
 				if (zielBinIndex == k && zielBinIndex == j) {
 					continue;
 				}

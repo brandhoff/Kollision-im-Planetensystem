@@ -168,8 +168,8 @@ int main(int argc, char* argv[])
 
 
 	
-	main_system->singularVerteilung(50000, gesMasse);
-	main_system->DestrZeitEntwicklung(2.5E7);
+	main_system->singularVerteilung(10000, gesMasse);
+	main_system->DestrZeitEntwicklung(1E9);
 	//main_system->zeitEntwicklung(5E3);
 
 

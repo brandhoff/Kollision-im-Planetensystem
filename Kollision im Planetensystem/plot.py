@@ -7,7 +7,7 @@ import matplotlib as mpl
 
 
 
-data = pd.read_csv(r'C:\Users\hi84qur\source\repos\Kollision im Planetensystem\Kollision im Planetensystem\Messwerte\Aufgabe 8\Zeitentwicklung_25mio_randomFragmente.txt', sep='\t')
+data = pd.read_csv(r'C:\Users\hi84qur\source\repos\Kollision im Planetensystem\Kollision im Planetensystem\Messwerte\Aufgabe 5\Zeitentwicklung_1mrd.txt', sep='\t')
 
 # data = pd.read_csv('test.txt', header=None, sep='\t', usecols=[0]).values
 # plt.plot(data[:,0], data[:, 1])
@@ -35,11 +35,12 @@ fig, ax = plt.subplots(figsize=(10, 8))
 #for i in range(1,50):
 
 
-data.plot(x='Bin-size',logy=False, legend=False, cmap='viridis',logx=True)
+data.plot(x='Bin-size',logy=True, legend=False, cmap='viridis',logx=True, ylim=(10E0,10E24))
 
 
-plt.xlabel('Teilchengröße', fontsize=18)
+plt.xlabel('Teilchenradius in m', fontsize=18)
 plt.ylabel('Masse im Bin', fontsize=18)
-plt.title('Unbekannte Anzahl Fragmente', fontsize=21)
+plt.title('Zeitentwicklung von 1mrd Jahren', fontsize=21, pad = 20)
+
 plt.tight_layout()
-plt.savefig("Aufgabe8_randomFragmente_log.pdf")
+plt.savefig("Aufgabe6_larger_1mrd_log.pdf")
